@@ -8,13 +8,14 @@ import { useTypewriter, Cursor } from "react-simple-typewriter";
 const Home = ({cardLength}) => {
     const [text] = useTypewriter({
       words: [
-        "Your trusted Shopping Platform.",
-        "Providing best user experience for customers.",
-        "Delivery on time in demand.",
+        "Mapaso na ba sa kahalaba sa pila? Ayaw kabaraka!",
+        "Kami na an magduduhol para imo kahala mawara!",
+        "Didi la kami sa luyo san Landbank.",
+        "Order na kami!",
       ],
       loop: true,
-      typeSpeed: 30,
-      deleteSpeed: 10,
+      typeSpeed: 45,
+      deleteSpeed: 15,
       delaySpeed: 2000,
     });
 

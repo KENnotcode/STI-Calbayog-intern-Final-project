@@ -19,6 +19,7 @@ const Home = ({totalQuantity, localStorageData}) => {
       delaySpeed: 2000,
     });
 
+
   return (
     <Section id="home">
         <div className="top-0 left-0 h-full w-full">

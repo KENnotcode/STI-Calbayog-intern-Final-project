@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useTypewriter, Cursor } from "react-simple-typewriter";
 
-const Home = ({cardLength}) => {
+const Home = ({totalQuantity, localStorageData}) => {
     const [text] = useTypewriter({
       words: [
         "Mapaso na ba sa kahalaba sa pila? Ayaw kabaraka!",
@@ -24,7 +24,7 @@ const Home = ({cardLength}) => {
         <div className="top-0 left-0 h-full w-full">
             <Image src="/image/bg.jpg"  alt="background" fill className="object-cover" />
         </div>
-       <Navbar cardLength={cardLength}/>
+       <Navbar totalQuantity={totalQuantity} localStorageData={localStorageData}/>
        {/* <bastaNavbar/> */}
 
         <div className="relative h-[70vh] z-[1] flex justify-center items-center">

@@ -7,12 +7,13 @@ import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 
-const Navbar = ({ cardLength }) => {
+const Navbar = ({ totalQuantity }) => {
   const router = useRouter();
   const [navbar, setNavbar] = useState(false);
   const [cartCount, setCartCount] = useState(0);
   const [cartItems, setCartItems] = useState([]);
-  const [localStorageData, setLocalStorageData] = useState(0);
+  const [ localStorageData, setLocalStorageData] = useState(0);
+  const [cartItemsMap, setCartItemsMap] = useState({});
   const MAX_DISPLAY_ITEMS = 5;
 
   useEffect(() => {
@@ -32,61 +33,98 @@ const Navbar = ({ cardLength }) => {
       const data = JSON.parse(localStorage.getItem("data")) || [];
       setLocalStorageData(data);
     }
-  }, [cardLength]);
+  }, [totalQuantity]);
 
-  const handleAddToCart = (item) => {
-    const updatedCartItems = [...cartItems, item];
+// Add this helper function to check if an item already exists in the cart
+const itemExistsInCart = (cartItems, item) => {
+  return cartItems.some((cartItem) => cartItem.title === item.title);
+};
+
+// Modify the handleAddToCart function
+const handleAddToCart = (item) => {
+  if (itemExistsInCart(cartItems, item)) {
+    const updatedCartItems = cartItems.map((cartItem) =>
+      cartItem.title === item.title ? { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem
+    );
     setCartItems(updatedCartItems);
-    setCartCount(updatedCartItems.length);
-    setCardLength(new Set(updatedCartItems.map((item) => item.title)).size);
+  } else {
+    const updatedCartItems = [...cartItems, { ...item, quantity: 1 }];
+    setCartItems(updatedCartItems);
+  }
+  setCartCount(updatedCartItems.length);
+  localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+};
 
-    localStorage.setItem("cartCount", updatedCartItems.length);
-    localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
-  };
+const totalQuantityInCart = localStorageData && Array.isArray(localStorageData)
+  ? localStorageData.reduce((total, item) => {
+      if (typeof item.quantity === 'string' && !isNaN(parseFloat(item.quantity))) {
+        return total + parseFloat(item.quantity);
+      }
+      return total;
+    }, 0)
+  : 0;
 
-  const cartMenu = (
-    <Menu>
-      <div id="mouse">
-        {localStorageData.length > 0 ? (
-          localStorageData.slice(0, MAX_DISPLAY_ITEMS).map((item, index) => {
-            if (item && item.price) {
-              return (
-                <Menu.Item key={index}>
-                  <div className="flex gap-[230px] justify-between">
-                    <p>{item.title}</p>
-                    <div className="flex gap-1 bg-[#b77b2e] rounded-md p-1 w-16">
-                      <p className="flex justify-end px-3">{item.price}</p>
-                    </div>
+const cartMenu = (
+<Menu>
+  <div id="mouse">
+    {localStorageData && localStorageData.length > 0 ? (
+      localStorageData
+        .reduce((acc, item) => {
+          const existingItemIndex = acc.findIndex(
+            (accItem) => accItem.title === item.title
+          );
+
+          if (existingItemIndex === -1) {
+            acc.push({ ...item }); // Make a copy of the item to prevent mutation
+          } else if (typeof item.quantity === 'string' && !isNaN(parseFloat(item.quantity))) {
+            acc[existingItemIndex].quantity += parseFloat(item.quantity);
+          }
+
+          return acc;
+        }, [])
+        .slice(0, MAX_DISPLAY_ITEMS)
+        .map((item, index) => {
+          if (item && item.price) {
+            return (
+              <Menu.Item key={index}>
+                <div className="flex gap-[230px] justify-between">
+                  <p>{item.title}</p>
+                  <div className="flex gap-1 bg-[#b77b2e] rounded-md p-1 w-16">
+                    <p className="flex justify-end px-3">{item.price}</p>
                   </div>
-                </Menu.Item>
-              );
-            } else {
-              return null;
-            }
-          })
-        ) : (
-          <Menu.Item>No items in cart</Menu.Item>
-        )}
-      </div>
-      <Menu.Item key="more-products">
-        <div className="pl-2 flex justify-between items-center">
-          <span>
-            {localStorageData.length > 0
-              ? `${Math.max(
-                  0,
-                  localStorageData.length - MAX_DISPLAY_ITEMS
-                )} More Products in the Cart`
-              : "0 Products in the Cart"}
-          </span>
-          <Link href="/cart">
-            <button className="bg-addtocartcolor text-black hover:text-tahiti px-4 py-2 rounded-md ml-2">
-              View My Shopping Cart
-            </button>
-          </Link>
-        </div>
-      </Menu.Item>
-    </Menu>
-  );
+                </div>
+              </Menu.Item>
+            );
+          } else {
+            return null;
+          }
+        })
+    ) : (
+      <Menu.Item>No items in cart</Menu.Item>
+    )}
+  </div>
+  <Menu.Item key="more-products">
+    <div className="pl-2 flex justify-between items-center">
+      <span>
+        {localStorageData && localStorageData.length > 0
+          ? `${Math.max(
+              0,
+              localStorageData.length - MAX_DISPLAY_ITEMS
+            )} More Products in the Cart`
+          : "0 Products in the Cart"}
+      </span>
+      <Link href="/cart">
+        <button className="bg-addtocartcolor text-black hover:text-tahiti px-4 py-2 rounded-md ml-2">
+          View My Shopping Cart
+        </button>
+      </Link>
+    </div>
+  </Menu.Item>
+</Menu>
+);
+
+
+
 
   return (
     <>
@@ -138,7 +176,7 @@ const Navbar = ({ cardLength }) => {
                   <Dropdown overlay={cartMenu}>
                     <Badge
                       className="duration-300 hover:scale-150"
-                      count={cardLength}
+                      count={totalQuantity}
                       offset={[10, 0]}
                     >
                       <ShoppingCartOutlined

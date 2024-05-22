@@ -2,7 +2,7 @@ import {motion} from "framer-motion";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 
-const CoffeeCard = ({id,imgUrl,title,price,active,handleClick, setCardLength}) => {
+const CoffeeCard = ({id,imgUrl,title,price,active,handleClick, setTotalQuantity}) => {
 
     const getCount = () => {
         const prevData = localStorage.getItem("data") || "[]"
@@ -11,14 +11,14 @@ const CoffeeCard = ({id,imgUrl,title,price,active,handleClick, setCardLength}) =
     }
 
     
-    const handleAddToCart = (id, title, price) => {
+    const handleAddToCart = (id, title, price, quantity) => {
         const prevData = localStorage.getItem("data") || "[]"
         const parsedData = JSON.parse(prevData)
           localStorage.setItem("data", JSON.stringify( [
             ...parsedData,
-            { id: id, title: title, price: price }
+            { id: id, title: title, price: price, quantity: quantity }
         ]));
-        setCardLength(getCount())
+        setTotalQuantity(getCount())
     };
 
     // const [cartCount, setCartCount] = useState(0);
@@ -53,7 +53,7 @@ const CoffeeCard = ({id,imgUrl,title,price,active,handleClick, setCardLength}) =
                     <p className="text-2xl font-medium">{price}</p>
                     
 
-                    <button className="flex justify-between mb-2 gap-3 items-center bg-addtocartcolor px-3 py-2 rounded-lg" onClick={() => handleAddToCart(id, title, price)}>
+                    <button className="flex justify-between mb-2 gap-3 items-center bg-addtocartcolor px-3 py-2 rounded-lg" onClick={() => handleAddToCart(id, title, price, quantity)}>
                         <Image className=" translate-x-" src={"/ADDTUCARTicon.png"} width={35} height={35} justify-end></Image>
                         <p className="text-white text-right">Add to cart</p>
                     </button>

@@ -120,9 +120,10 @@ const Cart = () => {
 
       // Calculate the total quantity of items in the cart
       const updatedCount = updatedCartData.reduce((acc, item) => acc + item.quantity, 0);
+      
 
       // Save the updated cart count back to localStorage
-      localStorage.setItem("cartCount", updatedCount);
+      // localStorage.setItem("cartCount", updatedCount);
 
       // Log the updated cart data for debugging
       console.log("Updated cart data:", updatedCartData);

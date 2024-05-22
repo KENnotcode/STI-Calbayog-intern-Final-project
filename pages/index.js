@@ -19,6 +19,7 @@ export default function Home() {
 
   const [totalQuantity, setTotalQuantity] = useState(0);
 
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const getter = localStorage.getItem("data");
@@ -37,6 +38,8 @@ export default function Home() {
       setTotalQuantity(sum);
     }
   }, []);
+
+  
   return (
     <CartProvider>
       <div className="relative">

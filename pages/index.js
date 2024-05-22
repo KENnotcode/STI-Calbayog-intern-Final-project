@@ -19,27 +19,14 @@ export default function Home() {
 
   const [totalQuantity, setTotalQuantity] = useState(0);
 
-
   useEffect(() => {
     if (typeof window !== "undefined") {
       const getter = localStorage.getItem("data");
       const parseData = JSON.parse(getter);
-      let sum = 0;
-      if (parseData && Array.isArray(parseData)) {
-        parseData.forEach(item => {
-          // Assuming each item has a property named "quantity" containing a string value
-          // You may need to adjust this depending on your actual data structure
-          const quantityValue = parseFloat(item.quantity);
-          if (!isNaN(quantityValue)) {
-            sum += quantityValue;
-          }
-        });
-      }
-      setTotalQuantity(sum);
+      setTotalQuantity(parseData?.length || 0);
     }
   }, []);
 
-  
   return (
     <CartProvider>
       <div className="relative">

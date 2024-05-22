@@ -2,7 +2,7 @@ import {motion} from "framer-motion";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 
-const HotcoffeeCard = ({id,imgUrl,title,price,active,handleClick, setTotalQuantity }) => {
+const HotcoffeeCard = ({id,imgUrl,title,price, quantity, active,handleClick, setTotalQuantity }) => {
 
     const getCount = () => {
         const prevData = localStorage.getItem("data") || "[]"
@@ -11,15 +11,25 @@ const HotcoffeeCard = ({id,imgUrl,title,price,active,handleClick, setTotalQuanti
     }
 
     
-    const handleAddToCart = (id, title, price) => {
-        const prevData = localStorage.getItem("data") || "[]"
-        const parsedData = JSON.parse(prevData)
-          localStorage.setItem("data", JSON.stringify( [
-            ...parsedData,
-            { id: id, title: title, price: price }
-        ]));
-        setTotalQuantity(getCount())
-    };
+    const handleAddToCart = (id, title, price, quantity) => {
+        const prevData = localStorage.getItem("data") || "[]";
+        let parsedData = JSON.parse(prevData);
+    
+        // Check if item with the same ID already exists
+        const existingItemIndex = parsedData.findIndex(item => item.id === id);
+    
+        if (existingItemIndex !== -1) {
+          // Item already exists, increment its quantity
+          parsedData[existingItemIndex].quantity += 1;
+        } else {
+          // Item doesn't exist, add it to the local storage
+          parsedData.push({ id: id, title: title, price: price, quantity: 1 });
+        }
+    
+        // Update local storage with modified or new data
+        localStorage.setItem("data", JSON.stringify(parsedData));
+        setTotalQuantity(getCount());
+      };
 
     // const [cartCount, setCartCount] = useState(0);
     
@@ -44,16 +54,16 @@ const HotcoffeeCard = ({id,imgUrl,title,price,active,handleClick, setTotalQuanti
                 {title}
             </div>
         ) : (
-            <div className="absolute p-6 w-full h-36 bottom-0 left-0 rounded-b-xl bg-[rgba(0,0,0,0.5)] text-white">
-                <h2 className="text-3xl font-semibold">{title}</h2>
+            <div className="absolute p-6 w-full h-36 bottom-0 left-0 rounded-b-xl bg-[rgba(0,0,0,0.5)] ">
+                <h2 className="text-3xl font-semibold text-tahiti">{title}</h2>
                 
                 <div className="flex justify-between mb-2">
-                    <p className="text-2xl font-medium">{price}</p>
+                    <p className="text-2xl font-medium text-tahiti">{price}</p>
                     
 
-                    <button className="flex justify-between mb-2 gap-3 items-center bg-addtocartcolor px-3 py-2 rounded-lg" onClick={() => handleAddToCart(id, title, price)}>
+                    <button className="flex justify-between mb-2 gap-3 items-center bg-addtocartcolor px-3 py-2 rounded-lg" onClick={() => handleAddToCart(id, title, price, quantity)}>
                         <Image className=" translate-x-" src={"/ADDTUCARTicon.png"} width={35} height={35} justify-end></Image>
-                        <p className="text-white text-right">Add to cart</p>
+                        <p className=" hover:text-tahiti text-right">Add to cart</p>
                     </button>
                 </div>
                 

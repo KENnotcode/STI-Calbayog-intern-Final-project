@@ -20,7 +20,7 @@ import CookiesCard from "@/components/CookiesCard";
 import HotcoffeeCard from "@/components/HotcoffeeCard";
 
 
-const OurMenu = ({setCardLength}) => {
+const OurMenu = ({setTotalQuantity}) => {
   const [icedcoffeeActive, seticedcoffeeActive] = useState("icedcoffee4"); 
   const [hotcoffeeActive, sethotcoffeeActive] = useState("hotcoffee5"); 
   const [creationseriesActive, setcreastionseriesActive] = useState("CreationSeries3"); 
@@ -39,7 +39,7 @@ const OurMenu = ({setCardLength}) => {
         <div id="IcedCoffee" style={{ overflowX: 'auto'}}>
           <div className="mt-[50px] flex flex-row min-h-[70vh] gap-2">
             {IcedCoffee.map((coffee, index) => (
-              <IcedCoffeeCard key={coffee.id} {...coffee} active={icedcoffeeActive} handleClick={seticedcoffeeActive} setCardLength={setCardLength} />
+              <IcedCoffeeCard key={coffee.id} {...coffee} active={icedcoffeeActive} handleClick={seticedcoffeeActive} setTotalQuantity={setTotalQuantity} />
             ))}
           </div>
         </div>
@@ -53,7 +53,7 @@ const OurMenu = ({setCardLength}) => {
         <div id="hotcoffee" style={{ overflowX: 'auto' }}>
           <div className="mt-[50px] flex flex-row min-h-[70vh] gap-2">
             {HotCoffee.map((coffee, index) => (
-              <HotcoffeeCard key={coffee.id} {...coffee} active={hotcoffeeActive} handleClick={sethotcoffeeActive} setCardLength={setCardLength}/>
+              <HotcoffeeCard key={coffee.id} {...coffee} active={hotcoffeeActive} handleClick={sethotcoffeeActive} setTotalQuantity={setTotalQuantity}/>
             ))}
           </div>
         </div>
@@ -67,7 +67,7 @@ const OurMenu = ({setCardLength}) => {
         <div id="creationseries">
           <div className="mt-[50px] flex flex-row min-h-[70vh] gap-2">
             {CreationSeries.map((coffee, index) => (
-              <CoffeeCard key={coffee.id} {...coffee} active={creationseriesActive} handleClick={setcreastionseriesActive} setCardLength={setCardLength}/>
+              <CoffeeCard key={coffee.id} {...coffee} active={creationseriesActive} handleClick={setcreastionseriesActive} setTotalQuantity={setTotalQuantity}/>
             ))}
           </div>
         </div>
@@ -81,7 +81,7 @@ const OurMenu = ({setCardLength}) => {
         <div id="noncoffee">
           <div className="mt-[50px] flex flex-row min-h-[70vh] gap-2">
             {NonCoffee.map((item, index) => (
-              <CoffeeCard key={item.id} {...item} active={noncoffeeActive} handleClick={setnoncoffeeActive} setCardLength={setCardLength}/>
+              <CoffeeCard key={item.id} {...item} active={noncoffeeActive} handleClick={setnoncoffeeActive} setTotalQuantity={setTotalQuantity}/>
             ))}
           </div>
         </div>
@@ -95,7 +95,7 @@ const OurMenu = ({setCardLength}) => {
         <div id="frappes">
           <div className="mt-[50px] flex flex-row min-h-[70vh] gap-2">
             {Frappes.map((item, index) => (
-              <CoffeeCard key={item.id} {...item} active={frappesActive} handleClick={setfrappesActive} setCardLength={setCardLength} />
+              <CoffeeCard key={item.id} {...item} active={frappesActive} handleClick={setfrappesActive} setTotalQuantity={setTotalQuantity} />
             ))}
           </div>
         </div>
@@ -108,7 +108,7 @@ const OurMenu = ({setCardLength}) => {
         <div id="pastries">
           <div className="mt-[50px] flex flex-row min-h-[70vh] gap-2">
             {Pastries.map((item, index) => (
-              <CookiesCard key={item.id} {...item} active={pastriesActive} handleClick={setpastriesActive} setCardLength={setCardLength}/>
+              <CookiesCard key={item.id} {...item} active={pastriesActive} handleClick={setpastriesActive} setTotalQuantity={setTotalQuantity}/>
             ))}
           </div>
         </div>

@@ -1,7 +1,7 @@
 import {motion} from "framer-motion";
 import Image from "next/image";
 
-const CookiesCard = ({id,imgUrl,title,price,active,handleClick, setCardLength}) => {
+const CookiesCard = ({id,imgUrl,title,price,active,handleClick, setTotalQuantity}) => {
 
     const getCount = () => {
         const prevData = localStorage.getItem("data") || "[]"
@@ -16,7 +16,7 @@ const CookiesCard = ({id,imgUrl,title,price,active,handleClick, setCardLength}) 
             ...parsedData,
             { id: id, title: title, price: price }
         ]));
-        setCardLength(getCount())
+        setTotalQuantity(getCount())
     };
     
 

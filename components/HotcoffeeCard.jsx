@@ -2,7 +2,7 @@ import {motion} from "framer-motion";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 
-const HotcoffeeCard = ({id,imgUrl,title,price,active,handleClick, setCardLength }) => {
+const HotcoffeeCard = ({id,imgUrl,title,price,active,handleClick, setTotalQuantity }) => {
 
     const getCount = () => {
         const prevData = localStorage.getItem("data") || "[]"
@@ -18,7 +18,7 @@ const HotcoffeeCard = ({id,imgUrl,title,price,active,handleClick, setCardLength 
             ...parsedData,
             { id: id, title: title, price: price }
         ]));
-        setCardLength(getCount())
+        setTotalQuantity(getCount())
     };
 
     // const [cartCount, setCartCount] = useState(0);

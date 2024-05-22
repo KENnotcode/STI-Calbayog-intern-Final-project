@@ -1,7 +1,7 @@
 import {motion} from "framer-motion";
 import Image from "next/image";
 
-const IcedCoffeeCard = ({id,imgUrl,title,price,active,handleClick, setCardLength}) => {
+const IcedCoffeeCard = ({id,imgUrl,title,price,active,handleClick, setTotalQuantity}) => {
     
 
     const getCount = () => {
@@ -23,7 +23,7 @@ const IcedCoffeeCard = ({id,imgUrl,title,price,active,handleClick, setCardLength
             ...parsedData,
             { id: id, title: title, price: price }
         ]));
-        setCardLength(getCount())
+        setTotalQuantity(getCount())
     };
 
     // useEffect(() => {

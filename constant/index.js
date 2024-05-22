@@ -3,44 +3,51 @@ export const IcedCoffee = [
         id:'icedcoffee1',
         imgUrl:'/image/IcedCoffee/icedamericano.png',
         title:'Americano',
-        price:'₱80'
+        price:'₱80',
+        quantity: '1'
     },
     {
         id:'icedcoffee2',
         imgUrl:'/image/IcedCoffee/icedcaffelatte.png',
         title:'Caffe Latte',
-        price:'₱90'
+        price:'₱90',
+        quantity: '1'
     },
     {
         id:'icedcoffee3',
         imgUrl:'/image/IcedCoffee/icedkopi.png',
         title:'Kopi',
-        price:'₱90'
+        price:'₱90',
+        quantity: '1'
     },
     {
         id:'icedcoffee4',
         imgUrl:'/image/IcedCoffee/icedmochadownunder.png',
         title:'Mocha Down Under',
-        price:'₱120'
+        price:'₱120',
+        quantity: '1'
     },
     {
         id:'icedcoffee5',
         imgUrl:'/image/IcedCoffee/icedspanishlatte.png',
         title:'Spanish Latte',
-        price:'₱90'
+        price:'₱90',
+        quantity: '1',
     },
     
     {
         id:'icedcoffee6',
         imgUrl:'/image/IcedCoffee/icedflavoredlatte.png',
         title:'Flavored Latte',
-        price:'₱120'
+        price:'₱120',
+        quantity: '1'
     },
     {
         id:'icedcoffee7',
         imgUrl:'/image/IcedCoffee/icedwhitechocolatemocha2.png',
         title:'White Chocolate Mocha',
-        price:'₱120'
+        price:'₱120',
+        quantity: '1'
     },
 
     //-----Add-ons/Extra-----

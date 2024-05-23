@@ -50,8 +50,10 @@ const Cart = () => {
     setCartItemsMap(updatedCartItemsMap);
     calculateSubTotal(Object.values(updatedCartItemsMap));
 
-    localStorage.setItem("data", JSON.stringify(Object.values(updatedCartItemsMap)));
-
+    localStorage.setItem(
+      "data",
+      JSON.stringify(Object.values(updatedCartItemsMap))
+    );
 
     console.log("Removed item with id:", id);
   };
@@ -82,45 +84,55 @@ const Cart = () => {
       }
 
       // Update the cart data with the new quantity and calculate the new subtotal
-      const updatedCartData = cartData.map((item) => {
-        if (item.id === id) {
-          // Ensure the quantity is not less than 1
-          const updatedQuantity = newQuantity >= 1 ? newQuantity : 0;
+      const updatedCartData = cartData
+        .map((item) => {
+          if (item.id === id) {
+            // Ensure the quantity is not less than 1
+            const updatedQuantity = newQuantity >= 1 ? newQuantity : 0;
 
-          // Calculate the updated subtotal, removing the currency symbol and converting to a number
-          const updatedSubTotal = updatedQuantity * parseFloat(item.price.replace("₱", ""));
+            // Calculate the updated subtotal, removing the currency symbol and converting to a number
+            const updatedSubTotal =
+              updatedQuantity * parseFloat(item.price.replace("₱", ""));
 
-          // Return the updated item
-          return {
-            ...item,
-            quantity: updatedQuantity,
-            subTotal: updatedSubTotal,
-          };
-        }
-        // Return the item unchanged if the id doesn't match
-        return item;
-      }).filter(item => item.quantity > 0); // Remove items with quantity 0
+            // Return the updated item
+            return {
+              ...item,
+              quantity: updatedQuantity,
+              subTotal: updatedSubTotal,
+            };
+          }
+          // Return the item unchanged if the id doesn't match
+          return item;
+        })
+        .filter((item) => item.quantity > 0); // Remove items with quantity 0
 
       // Save the updated cart data back to localStorage
       localStorage.setItem("data", JSON.stringify(updatedCartData));
 
       // Update the cart items map for state management
-      if (typeof setCartItemsMap === 'function') {
-        setCartItemsMap(updatedCartData.reduce((acc, item) => ({ ...acc, [item.id]: item }), {}));
+      if (typeof setCartItemsMap === "function") {
+        setCartItemsMap(
+          updatedCartData.reduce(
+            (acc, item) => ({ ...acc, [item.id]: item }),
+            {}
+          )
+        );
       } else {
         console.error("setCartItemsMap is not defined or not a function");
       }
 
       // Recalculate the subtotal for the cart
-      if (typeof calculateSubTotal === 'function') {
+      if (typeof calculateSubTotal === "function") {
         calculateSubTotal(updatedCartData);
       } else {
         console.error("calculateSubTotal is not defined or not a function");
       }
 
       // Calculate the total quantity of items in the cart
-      const updatedCount = updatedCartData.reduce((acc, item) => acc + item.quantity, 0);
-      
+      const updatedCount = updatedCartData.reduce(
+        (acc, item) => acc + item.quantity,
+        0
+      );
 
       // Save the updated cart count back to localStorage
       // localStorage.setItem("cartCount", updatedCount);
@@ -263,8 +275,8 @@ const Cart = () => {
       </div>
 
       <div
-        className="flex justify-center gap-4 bg-tahiti pl-5 pr-5 w-full text-center"
-        style={{ position: "fixed", bottom: "7px" }}
+        className="flex justify-center gap-4 bg-tahiti pl-5 pr-5 pb-9 w-full text-center"
+        style={{ position: "fixed", bottom: "0px", height: "7px" }}
       >
         <p>
           You have {Object.values(cartItemsMap).length} item(s) in your cart

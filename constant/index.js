@@ -72,25 +72,25 @@ export const IcedCoffee = [
 ];
 
 export const HotCoffee = [
-  // Add Hot Coffee section
+  // Hot Coffee section
   {
     id: "hotcoffee1",
     imgUrl: "/image/HotCoffee/hotamericano.png",
-    title: "Hot Americano",
+    title: "Americano",
     price: "₱80",
     quantity: "1",
   },
   {
     id: "hotcoffee2",
     imgUrl: "/image/HotCoffee/hotlatte2.png",
-    title: "Hot Latte",
+    title: "Latte | Capp",
     price: "₱90",
     quantity: "1",
   },
   {
     id: "hotcoffee3",
     imgUrl: "/image/HotCoffee/hotkopi2.png",
-    title: "Hot Kopi",
+    title: "Kopi",
     price: "₱90",
     quantity: "1",
   },
@@ -104,7 +104,7 @@ export const HotCoffee = [
   {
     id: "hotcoffee4",
     imgUrl: "/image/HotCoffee/hotspanishlatte.png",
-    title: "Hot Spanish Latte",
+    title: "Spanish Latte",
     price: "₱90",
     quantity: "1",
   },
@@ -119,7 +119,7 @@ export const HotCoffee = [
   {
     id: "hotcoffee7",
     imgUrl: "/image/HotCoffee/hotwhitechocolatemocha2.png",
-    title: "Hot White Chocolate Mocha",
+    title: "White Chocolate Mocha",
     price: "₱120",
     quantity: "1",
   },
@@ -133,7 +133,6 @@ export const CreationSeries = [
     price: "₱120",
     quantity: "1",
   },
-
   {
     id: "CreationSeries3",
     imgUrl: "/image/CreationSeries/toffeenutcreme.png",
@@ -188,18 +187,18 @@ export const Frappes = [
     title: "Java Chips Cappuccino",
     price: "₱130",
     quantity: "1",
+  },  
+  {
+    id: "Frappes3",
+    imgUrl: "/image/Frappes/greenteamatcha.png",
+    title: "Green Tea Matcha",
+    price: "₱130",
+    quantity: "1",
   },
   {
     id: "Frappes2",
     imgUrl: "/image/Frappes/cookiesandcream.png",
     title: "Cookies and Cream",
-    price: "₱130",
-    quantity: "1",
-  },
-  {
-    id: "Frappes3",
-    imgUrl: "/image/Frappes/greenteamatcha.png",
-    title: "Green Tea Matcha",
     price: "₱130",
     quantity: "1",
   },

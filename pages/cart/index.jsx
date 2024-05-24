@@ -285,8 +285,22 @@ const Cart = () => {
   ];
 
   const handleCheckoutClick = () => {
+    // Check if cart is empty
+    const storedCartItems = JSON.parse(localStorage.getItem("data")) || [];
+    if (storedCartItems.length === 0) {
+      // If cart is empty, display notification and provide option to continue shopping
+      notification.error({
+        message: "Empty Cart",
+        description: "You don't have items in your cart.",
+        duration: 5,
+      });
+      return;
+    }
+
+    // If cart is not empty, proceed to checkout
     setIsCheckoutVisible(true);
   };
+
 
   const handleContinueClick = () => {
     setIsCheckoutVisible(false);
@@ -314,6 +328,9 @@ const Cart = () => {
     if (!userInfo.lastName) {
       errors.lastName = "Last name is required";
     }
+    if (!userInfo.date) {
+      errors.date = "Date is required";
+    }
     return errors;
   };
 
@@ -335,7 +352,9 @@ const Cart = () => {
   const handleFinalCheckout = () => {
     const errors = validateForm();
     if (Object.keys(errors).length === 0) {
-      let existingPurchaseData = JSON.parse(localStorage.getItem("purchaseData"));
+      let existingPurchaseData = JSON.parse(
+        localStorage.getItem("purchaseData")
+      );
 
       // Check if existingPurchaseData is an array, if not initialize it as an empty array
       if (!Array.isArray(existingPurchaseData)) {
@@ -359,7 +378,10 @@ const Cart = () => {
       existingPurchaseData.push(newPurchase);
 
       // Save the updated array back to local storage
-      localStorage.setItem("purchaseData", JSON.stringify(existingPurchaseData));
+      localStorage.setItem(
+        "purchaseData",
+        JSON.stringify(existingPurchaseData)
+      );
 
       // Clear the cart data from local storage
       localStorage.removeItem("data");
@@ -559,6 +581,7 @@ const Cart = () => {
           value={userInfo.date || getTodayDate()}
           onChange={handleUserInfoChange}
           className="mb-2"
+          status={formErrors.date ? "error" : ""}
         />
       </Modal>
     </div>

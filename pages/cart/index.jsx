@@ -55,11 +55,13 @@ const Cart = () => {
 
     return `${month} ${day}, ${year}`;
   };
+  const storedData =
+    typeof window !== "undefined" ? localStorage.getItem("data") : null;
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedCartItems = JSON.parse(localStorage.getItem("data")) || [];
-      const newCartItemsMap = storedCartItems.reduce((acc, item) => {
+    if (storedData) {
+      const parsedData = JSON.parse(storedData) || [];
+      const newCartItemsMap = parsedData.reduce((acc, item) => {
         const existingItem = acc[item.id];
         if (existingItem) {
           existingItem.quantity += item.quantity || 1;
@@ -78,7 +80,7 @@ const Cart = () => {
       setCartItemsMap(newCartItemsMap);
       calculateSubTotal(Object.values(newCartItemsMap));
     }
-  }, [typeof window !== "undefined" ? localStorage.getItem("data") : null]);
+  }, [storedData]);
 
   const removeFromCart = (id) => {
     const updatedCartItemsMap = { ...cartItemsMap };
@@ -202,13 +204,15 @@ const Cart = () => {
         <div className="flex gap-5 text-[15px]">
           <DeleteOutlined
             onClick={() => removeFromCart(record.id)}
+            e
             style={{ fontSize: "25px", cursor: "pointer" }}
             className="duration-300 hover:scale-150 hover:text-red"
           />
           <Image
-            src={getProduct1(record.id)}
+            src={getProductImage(record.id)}
             alt={text}
-            style={{ width: 100, height: 80 }}
+            width={100}
+            height={80}
           />
           <p className="pt-[30px]">{text}</p>
         </div>
@@ -416,7 +420,8 @@ const Cart = () => {
           <Image
             src={getProductImage(record.id)}
             alt={text}
-            style={{ width: 100, height: 80 }}
+            width={100}
+            height={80}
           />
           <p className="pt-[30px]">{text}</p>
         </div>
@@ -453,7 +458,10 @@ const Cart = () => {
       <div className="pl-[90px] pr-[50px] pt-[82px]">
         <Table
           columns={columns}
-          dataSource={Object.values(cartItemsMap)}
+          dataSource={Object.values(cartItemsMap).map((item, index) => ({
+            ...item,
+            key: index, // Provide a unique key for each row
+          }))}
           pagination={false}
           bordered
           size="small"
@@ -463,11 +471,19 @@ const Cart = () => {
       <div className="flex justify-end  pl-32">
         <Table
           columns={totalColumns}
-          dataSource={totalData}
+          dataSource={totalData.map((item, index) => ({
+            ...item,
+            key: index, // Provide a unique key for each row
+          }))}
           pagination={false}
           size="large"
           showHeader={false}
-          style={{ width: 200, borderStyle: "solid", border: "2px solid #000" }}
+          width={100}
+          height={80}
+          bordered={{
+            border: "2px solid #000",
+            borderRadius: "5px",
+          }}
           className="mt-10 mr-24"
         />
       </div>
@@ -525,7 +541,12 @@ const Cart = () => {
           pagination={false}
           size="small"
           showHeader={false}
-          style={{ width: 200, borderStyle: "solid", border: "2px solid #000" }}
+          width={100}
+          height={80}
+          bordered={{
+            border: "2px solid #000",
+            borderRadius: "5px",
+          }}
           className="mt-10"
         />
       </Modal>

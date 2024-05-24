@@ -25,6 +25,8 @@ const Cart = () => {
     date: "",
   });
 
+  const [formErrors, setFormErrors] = useState({});
+
   const total = parseFloat(subTotal) + parseFloat(shippingCharge);
 
   // Function to get today's date in the format "Month Day, Year"
@@ -304,43 +306,82 @@ const Cart = () => {
     }));
   };
 
-  const handleFinalCheckout = () => {
-    let existingPurchaseData = JSON.parse(localStorage.getItem("purchaseData"));
-
-    // Check if existingPurchaseData is an array, if not initialize it as an empty array
-    if (!Array.isArray(existingPurchaseData)) {
-      existingPurchaseData = [];
+  const validateForm = () => {
+    const errors = {};
+    if (!userInfo.firstName) {
+      errors.firstName = "First name is required";
     }
+    if (!userInfo.lastName) {
+      errors.lastName = "Last name is required";
+    }
+    return errors;
+  };
 
-    // Create a new purchase object with user information, total, and additional data
-    const newPurchase = {
-      userInfo: {
-        firstName: userInfo.firstName,
-        lastName: userInfo.lastName,
-        date: userInfo.date,
-      },
-      total: total.toFixed(2),
-      // Add additional data properties here
-      additionalData1: "value1",
-      additionalData2: "value2",
-    };
+  const handleCheckout = () => {
+    const errors = validateForm();
+    if (Object.keys(errors).length === 0) {
+      setIsUserInfoVisible(false);
+      setIsCheckoutVisible(true);
+    } else {
+      setFormErrors(errors);
+      notification.error({
+        message: "Form Error",
+        description: "Please fill out all required fields.",
+        duration: 3,
+      });
+    }
+  };
 
-    // Push the new purchase data to the existing array
-    existingPurchaseData.push(newPurchase);
+  const handleFinalCheckout = () => {
+    const errors = validateForm();
+    if (Object.keys(errors).length === 0) {
+      let existingPurchaseData = JSON.parse(localStorage.getItem("purchaseData"));
 
-    // Save the updated array back to local storage
-    localStorage.setItem("purchaseData", JSON.stringify(existingPurchaseData));
+      // Check if existingPurchaseData is an array, if not initialize it as an empty array
+      if (!Array.isArray(existingPurchaseData)) {
+        existingPurchaseData = [];
+      }
 
-    notification.success({
-      message: "Purchase Successful",
-      description:
-        "Thank you for your purchase at Coffee First Calbayog! We’re thrilled to have you as a customer.",
-      duration: 3,
-    });
-    setIsCheckoutVisible(false);
+      // Create a new purchase object with user information, total, and additional data
+      const newPurchase = {
+        userInfo: {
+          firstName: userInfo.firstName,
+          lastName: userInfo.lastName,
+          date: userInfo.date,
+        },
+        total: total.toFixed(2),
+        // Add additional data properties here
+        additionalData1: "value1",
+        additionalData2: "value2",
+      };
 
-    // After clicking the checkout button, it will redirect to parent home page
-    router.push("/#home");
+      // Push the new purchase data to the existing array
+      existingPurchaseData.push(newPurchase);
+
+      // Save the updated array back to local storage
+      localStorage.setItem("purchaseData", JSON.stringify(existingPurchaseData));
+
+      // Clear the cart data from local storage
+      localStorage.removeItem("data");
+
+      notification.success({
+        message: "Purchase Successful",
+        description:
+          "Thank you for your purchase at Coffee First Calbayog! We’re thrilled to have you as a customer.",
+        duration: 3,
+      });
+      setIsCheckoutVisible(false);
+
+      // After clicking the checkout button, it will redirect to parent home page
+      router.push("/#home");
+    } else {
+      setFormErrors(errors);
+      notification.error({
+        message: "Form Error",
+        description: "Please fill out all required fields.",
+        duration: 3,
+      });
+    }
   };
 
   const checkoutColumns = [
@@ -502,6 +543,7 @@ const Cart = () => {
           value={userInfo.firstName}
           onChange={handleUserInfoChange}
           className="mb-2"
+          status={formErrors.firstName ? "error" : ""}
         />
         <Input
           placeholder="Last Name"
@@ -509,6 +551,7 @@ const Cart = () => {
           value={userInfo.lastName}
           onChange={handleUserInfoChange}
           className="mb-2"
+          status={formErrors.lastName ? "error" : ""}
         />
         <Input
           placeholder="Date"

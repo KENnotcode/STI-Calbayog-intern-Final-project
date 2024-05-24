@@ -460,7 +460,7 @@ const Cart = () => {
           columns={columns}
           dataSource={Object.values(cartItemsMap).map((item, index) => ({
             ...item,
-            key: index, // Provide a unique key for each row
+            key: index.cartems, // Provide a unique key for each row
           }))}
           pagination={false}
           bordered
@@ -473,7 +473,7 @@ const Cart = () => {
           columns={totalColumns}
           dataSource={totalData.map((item, index) => ({
             ...item,
-            key: index, // Provide a unique key for each row
+            key: index.datas, // Provide a unique key for each row
           }))}
           pagination={false}
           size="large"

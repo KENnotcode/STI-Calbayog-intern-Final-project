@@ -1,4 +1,4 @@
-import { Alert } from 'antd';
+import { Alert } from "antd";
 import Head from "next/head";
 import Homepage from "../sections/home.jsx";
 import OurMenu from "@/sections/menu.jsx";
@@ -21,7 +21,7 @@ export default function Home() {
   const [totalQuantity, setTotalQuantity] = useState(0);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (window) {
       const getter = localStorage.getItem("data");
       const parseData = JSON.parse(getter);
       setTotalQuantity(parseData?.length || 0);
@@ -36,11 +36,6 @@ export default function Home() {
           <meta name="description" content="freshcoffee website" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <link rel="icon" alt="icon" href="/BASTAfavicon.png" />
-
-          <link
-            href="https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap"
-            rel="stylesheet"
-          />
         </Head>
         <Homepage totalQuantity={totalQuantity} />
         <OurMenu setTotalQuantity={setTotalQuantity} />

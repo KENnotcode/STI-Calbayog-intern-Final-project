@@ -79,7 +79,10 @@ export const HotCoffee = [
     title: "Hot Americano",
     price: "₱80",
     quantity: "1",
+<<<<<<< HEAD
     alt: "23",
+=======
+>>>>>>> d29a7c6ef8c0a7e9f9862a66175d2839855235d2
   },
   {
     id: "hotcoffee2",

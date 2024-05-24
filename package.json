@@ -11,12 +11,21 @@
   "dependencies": {
     "@next/font": "13.1.5",
     "antd": "^5.17.0",
+<<<<<<< HEAD
     "framer-motion": "^8.5.5",
     "git-filter-repo": "^0.0.30",
     "moment": "^2.30.1",
     "momment": "^0.0.1",
     "next": "13.1.5",
     "pip": "^0.0.1",
+=======
+    "eslint": "8.32.0",
+    "eslint-config-next": "13.1.5",
+    "framer-motion": "^8.5.5",
+    "moment": "^2.30.1",
+    "momment": "^0.0.1",
+    "next": "13.1.5",
+>>>>>>> d29a7c6ef8c0a7e9f9862a66175d2839855235d2
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.7.1",
@@ -24,8 +33,12 @@
     "react-router-dom": "^6.23.1",
     "react-select": "^5.8.0",
     "react-simple-typewriter": "^5.0.1",
+<<<<<<< HEAD
     "redux": "^5.0.1",
     "tsconfig-paths": "^4.2.0"
+=======
+    "redux": "^5.0.1"
+>>>>>>> d29a7c6ef8c0a7e9f9862a66175d2839855235d2
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",

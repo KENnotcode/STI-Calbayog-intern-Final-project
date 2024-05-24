@@ -1,6 +1,10 @@
 import Navbar from "@/components/Navbar";
 import React, { useState, useEffect } from "react";
+<<<<<<< HEAD
 import { Table, Modal, Input, Button, notification, DatePicker } from "antd";
+=======
+import { Table, Modal, Input, Button, notification } from "antd";
+>>>>>>> d29a7c6ef8c0a7e9f9862a66175d2839855235d2
 import { DeleteOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import {
   IcedCoffee,
@@ -11,8 +15,11 @@ import {
   Pastries,
 } from "@/constant";
 import { useRouter } from "next/router";
+<<<<<<< HEAD
 import moment from "moment";
 import Image from "next/image";
+=======
+>>>>>>> d29a7c6ef8c0a7e9f9862a66175d2839855235d2
 
 const Cart = () => {
   const router = useRouter();
@@ -24,13 +31,18 @@ const Cart = () => {
   const [userInfo, setUserInfo] = useState({
     firstName: "",
     lastName: "",
+<<<<<<< HEAD
     date: moment().format("MM-DD-YY"), // Set default date here
+=======
+    date: "",
+>>>>>>> d29a7c6ef8c0a7e9f9862a66175d2839855235d2
   });
 
   const [formErrors, setFormErrors] = useState({});
 
   const total = parseFloat(subTotal) + parseFloat(shippingCharge);
 
+<<<<<<< HEAD
   // // Function to get today's date in the format "Month Day, Year"
   // const getTodayDate = () => {
   //   const months = [
@@ -56,6 +68,33 @@ const Cart = () => {
 
   //   return `${month} ${day}, ${year}`;
   // };
+=======
+  // Function to get today's date in the format "Month Day, Year"
+  const getTodayDate = () => {
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+
+    const today = new Date();
+    const monthIndex = today.getMonth();
+    const month = months[monthIndex];
+    const day = today.getDate();
+    const year = today.getFullYear();
+
+    return `${month} ${day}, ${year}`;
+  };
+>>>>>>> d29a7c6ef8c0a7e9f9862a66175d2839855235d2
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -206,11 +245,18 @@ const Cart = () => {
             style={{ fontSize: "25px", cursor: "pointer" }}
             className="duration-300 hover:scale-150 hover:text-red"
           />
+<<<<<<< HEAD
           <Image
             src={getProductImage(record.id)}
             alt={text}
             width={100}
             height={80}
+=======
+          <img
+            src={getProductImage(record.id)}
+            alt={text}
+            style={{ width: 100, height: 80 }}
+>>>>>>> d29a7c6ef8c0a7e9f9862a66175d2839855235d2
           />
           <p className="pt-[30px]">{text}</p>
         </div>
@@ -304,6 +350,10 @@ const Cart = () => {
     setIsCheckoutVisible(true);
   };
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> d29a7c6ef8c0a7e9f9862a66175d2839855235d2
   const handleContinueClick = () => {
     setIsCheckoutVisible(false);
     setIsUserInfoVisible(true);
@@ -336,6 +386,7 @@ const Cart = () => {
     return errors;
   };
 
+<<<<<<< HEAD
   // const handleCheckout = () => {
   //   const errors = validateForm();
   //   if (Object.keys(errors).length === 0) {
@@ -350,6 +401,22 @@ const Cart = () => {
   //     });
   //   }
   // };
+=======
+  const handleCheckout = () => {
+    const errors = validateForm();
+    if (Object.keys(errors).length === 0) {
+      setIsUserInfoVisible(false);
+      setIsCheckoutVisible(true);
+    } else {
+      setFormErrors(errors);
+      notification.error({
+        message: "Form Error",
+        description: "Please fill out all required fields.",
+        duration: 3,
+      });
+    }
+  };
+>>>>>>> d29a7c6ef8c0a7e9f9862a66175d2839855235d2
 
   const handleFinalCheckout = () => {
     const errors = validateForm();
@@ -415,11 +482,18 @@ const Cart = () => {
       key: "title",
       render: (text, record) => (
         <div className="flex gap-5 text-[15px]">
+<<<<<<< HEAD
           <Image
             src={getProductImage(record.id)}
             alt={text}
             width={100}
             height={80}
+=======
+          <img
+            src={getProductImage(record.id)}
+            alt={text}
+            style={{ width: 100, height: 80 }}
+>>>>>>> d29a7c6ef8c0a7e9f9862a66175d2839855235d2
           />
           <p className="pt-[30px]">{text}</p>
         </div>
@@ -578,6 +652,7 @@ const Cart = () => {
           className="mb-2"
           status={formErrors.lastName ? "error" : ""}
         />
+<<<<<<< HEAD
         <DatePicker
           placeholder="Date"
           name="date"
@@ -585,6 +660,13 @@ const Cart = () => {
           onChange={(date, dateString) =>
             handleUserInfoChange("date", dateString)
           }
+=======
+        <Input
+          placeholder="Date"
+          name="date"
+          value={userInfo.date || getTodayDate()}
+          onChange={handleUserInfoChange}
+>>>>>>> d29a7c6ef8c0a7e9f9862a66175d2839855235d2
           className="mb-2"
           status={formErrors.date ? "error" : ""}
         />

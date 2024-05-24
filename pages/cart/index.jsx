@@ -1,7 +1,7 @@
 import Navbar from "@/components/Navbar";
 import React, { useState, useEffect } from "react";
-import { Table } from "antd";
-import { DeleteOutlined } from "@ant-design/icons";
+import { Table, Modal, Input, Button, notification } from "antd";
+import { DeleteOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import {
   IcedCoffee,
   HotCoffee,
@@ -17,8 +17,41 @@ const Cart = () => {
   const [cartItemsMap, setCartItemsMap] = useState({});
   const [subTotal, setSubTotal] = useState(0);
   const [shippingCharge, setShippingCharge] = useState(25); // Example shipping charge
+  const [isCheckoutVisible, setIsCheckoutVisible] = useState(false);
+  const [isUserInfoVisible, setIsUserInfoVisible] = useState(false);
+  const [userInfo, setUserInfo] = useState({
+    firstName: "",
+    lastName: "",
+    date: "",
+  });
 
   const total = parseFloat(subTotal) + parseFloat(shippingCharge);
+
+  // Function to get today's date in the format "Month Day, Year"
+  const getTodayDate = () => {
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+
+    const today = new Date();
+    const monthIndex = today.getMonth();
+    const month = months[monthIndex];
+    const day = today.getDate();
+    const year = today.getFullYear();
+
+    return `${month} ${day}, ${year}`;
+  };
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -249,6 +282,108 @@ const Cart = () => {
     },
   ];
 
+  const handleCheckoutClick = () => {
+    setIsCheckoutVisible(true);
+  };
+
+  const handleContinueClick = () => {
+    setIsCheckoutVisible(false);
+    setIsUserInfoVisible(true);
+  };
+
+  const handleBackClick = () => {
+    setIsUserInfoVisible(false);
+    setIsCheckoutVisible(true);
+  };
+
+  const handleUserInfoChange = (e) => {
+    const { name, value } = e.target;
+    setUserInfo((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleFinalCheckout = () => {
+    let existingPurchaseData = JSON.parse(localStorage.getItem("purchaseData"));
+
+    // Check if existingPurchaseData is an array, if not initialize it as an empty array
+    if (!Array.isArray(existingPurchaseData)) {
+      existingPurchaseData = [];
+    }
+
+    // Create a new purchase object with user information, total, and additional data
+    const newPurchase = {
+      userInfo: {
+        firstName: userInfo.firstName,
+        lastName: userInfo.lastName,
+        date: userInfo.date,
+      },
+      total: total.toFixed(2),
+      // Add additional data properties here
+      additionalData1: "value1",
+      additionalData2: "value2",
+    };
+
+    // Push the new purchase data to the existing array
+    existingPurchaseData.push(newPurchase);
+
+    // Save the updated array back to local storage
+    localStorage.setItem("purchaseData", JSON.stringify(existingPurchaseData));
+
+    notification.success({
+      message: "Purchase Successful",
+      description:
+        "Thank you for your purchase at Coffee First Calbayog! We’re thrilled to have you as a customer.",
+      duration: 3,
+    });
+    setIsCheckoutVisible(false);
+
+    // After clicking the checkout button, it will redirect to parent home page
+    router.push("/#home");
+  };
+
+  const checkoutColumns = [
+    {
+      title: "Product",
+      dataIndex: "title",
+      key: "title",
+      render: (text, record) => (
+        <div className="flex gap-5 text-[15px]">
+          <img
+            src={getProductImage(record.id)}
+            alt={text}
+            style={{ width: 100, height: 80 }}
+          />
+          <p className="pt-[30px]">{text}</p>
+        </div>
+      ),
+    },
+    {
+      title: "Price",
+      dataIndex: "price",
+      key: "price",
+      align: "center",
+      render: (text) => <span className="text-[15px]">{text}</span>,
+    },
+    {
+      title: "Quantity",
+      dataIndex: "quantity",
+      key: "quantity",
+      align: "center",
+      render: (text) => <span className="text-[15px]">{text}</span>,
+    },
+    {
+      title: "Total",
+      dataIndex: "subTotal",
+      key: "subTotal",
+      align: "center",
+      render: (text) => (
+        <span className="text-[15px]">₱{parseFloat(text).toFixed(2) || 0}</span>
+      ),
+    },
+  ];
+
   return (
     <div className="bg-tahiti pb-24 text-[15px]">
       <Navbar />
@@ -262,7 +397,7 @@ const Cart = () => {
         />
       </div>
 
-      <div className="flex justify-end pl-32">
+      <div className="flex justify-end  pl-32">
         <Table
           columns={totalColumns}
           dataSource={totalData}
@@ -272,6 +407,15 @@ const Cart = () => {
           style={{ width: 200, borderStyle: "solid", border: "2px solid #000" }}
           className="mt-10 mr-24"
         />
+      </div>
+
+      <div className=" flex justify-end pr-28 pt-3">
+        <button
+          className=" bg-addtocartcolor pt-[5px] pb-1 px-[5px] pl-[7px] pr-[7px] rounded-md hover:text-tahiti"
+          onClick={handleCheckoutClick}
+        >
+          Checkout
+        </button>
       </div>
 
       <div
@@ -287,6 +431,93 @@ const Cart = () => {
           </p>
         </button>
       </div>
+
+      <Modal
+        title={<span className="checkout-title">Checkout</span>}
+        visible={isCheckoutVisible}
+        onCancel={() => setIsCheckoutVisible(false)}
+        footer={[
+          <Button
+            className="text-dark  px-5"
+            key="continue"
+            onClick={handleContinueClick}
+          >
+            <div>
+              Continue <RightOutlined />
+            </div>
+          </Button>,
+        ]}
+      >
+        <h2 className=" pt-3">Order Summary</h2>
+        <Table
+          columns={checkoutColumns}
+          dataSource={Object.values(cartItemsMap)}
+          pagination={false}
+          bordered
+          size="small"
+        />
+        <Table
+          columns={totalColumns}
+          dataSource={totalData}
+          pagination={false}
+          size="small"
+          showHeader={false}
+          style={{ width: 200, borderStyle: "solid", border: "2px solid #000" }}
+          className="mt-10"
+        />
+      </Modal>
+
+      <Modal
+        title="User Information"
+        visible={isUserInfoVisible}
+        onCancel={() => setIsUserInfoVisible(false)}
+        footer={[
+          <div className="flex  justify-between space-x-[5px]">
+            <div>
+              <Button
+                className=" justify-start"
+                key="back"
+                onClick={handleBackClick}
+              >
+                <div>
+                  <LeftOutlined /> Back
+                </div>
+              </Button>
+              ,
+            </div>
+            <div className="">
+              <Button className="" key="Checkout" onClick={handleFinalCheckout}>
+                <div>
+                  Checkout <RightOutlined />
+                </div>
+              </Button>
+              ,
+            </div>
+          </div>,
+        ]}
+      >
+        <Input
+          placeholder="First Name"
+          name="firstName"
+          value={userInfo.firstName}
+          onChange={handleUserInfoChange}
+          className="mb-2"
+        />
+        <Input
+          placeholder="Last Name"
+          name="lastName"
+          value={userInfo.lastName}
+          onChange={handleUserInfoChange}
+          className="mb-2"
+        />
+        <Input
+          placeholder="Date"
+          name="date"
+          value={userInfo.date || getTodayDate()}
+          onChange={handleUserInfoChange}
+          className="mb-2"
+        />
+      </Modal>
     </div>
   );
 };

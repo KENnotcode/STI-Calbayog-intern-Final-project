@@ -3,7 +3,7 @@
 import Section from "@/components/Section";
 import CoffeeCard from "@/components/CoffeeCard";
 import { RunningText, TitlePage } from "@/components/TypingText";
-import { NonCoffee } from "@/constant"; // Import NonCoffee data
+import { NonCoffee as NonCoffeeData } from "@/constant"; // Import NonCoffee data
 import { useState } from "react";
 
 const NonCoffee = () => {
@@ -14,10 +14,15 @@ const NonCoffee = () => {
       <RunningText />
       <TitlePage title="Non-Coffee Drinks" />
 
-      <div id="noncoffee" style={{ overflowX: 'auto' }}>
+      <div id="noncoffee" style={{ overflowX: "auto" }}>
         <div className="mt-[50px] flex flex-row min-h-[70vh] gap-2">
-          {NonCoffee.map((drink, index) => (
-            <CoffeeCard key={drink.id} {...drink} active={active} handleClick={setActive} />
+          {NonCoffeeData.map((drink, index) => (
+            <CoffeeCard
+              key={drink.id}
+              {...drink}
+              active={active}
+              handleClick={setActive}
+            />
           ))}
         </div>
       </div>

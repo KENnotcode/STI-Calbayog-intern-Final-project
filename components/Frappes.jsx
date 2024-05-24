@@ -3,7 +3,7 @@
 import Section from "@/components/Section";
 import CoffeeCard from "@/components/CoffeeCard";
 import { RunningText, TitlePage } from "@/components/TypingText";
-import { Frappes } from "@/constant";
+import { Frappes as FrappesData } from "@/constant";
 import { useState } from "react";
 
 const Frappes = ({ frappes }) => {
@@ -16,7 +16,7 @@ const Frappes = ({ frappes }) => {
 
       <div id="frappes">
         <div className="mt-[50px] flex flex-row min-h-[70vh] gap-2">
-          {frappes.map((coffee, index) => (
+          {FrappesData.map((coffee, index) => (
             <CoffeeCard key={coffee.id} {...coffee} active={active} handleClick={setActive} />
           ))}
         </div>

@@ -71,6 +71,7 @@ const CookiesCard = ({
                 width={35}
                 height={35}
                 justify-end
+                alt="icon"
               ></Image>
               <p className="hover:text-tahiti text-right">Add to cart</p>
             </button>

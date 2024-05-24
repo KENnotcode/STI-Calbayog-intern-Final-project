@@ -75,6 +75,7 @@ const IcedCoffeeCard = ({
                 width={35}
                 height={35}
                 justify-end
+                alt="icon"
               ></Image>
               <p className="text-white text-right">Add to cart</p>
             </button>

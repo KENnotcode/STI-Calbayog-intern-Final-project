@@ -11,6 +11,7 @@ import {
   Pastries,
 } from "@/constant";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 const Cart = () => {
   const router = useRouter();
@@ -204,8 +205,8 @@ const Cart = () => {
             style={{ fontSize: "25px", cursor: "pointer" }}
             className="duration-300 hover:scale-150 hover:text-red"
           />
-          <img
-            src={getProductImage(record.id)}
+          <Image
+            src={getProduct1(record.id)}
             alt={text}
             style={{ width: 100, height: 80 }}
           />
@@ -300,7 +301,6 @@ const Cart = () => {
     // If cart is not empty, proceed to checkout
     setIsCheckoutVisible(true);
   };
-
 
   const handleContinueClick = () => {
     setIsCheckoutVisible(false);
@@ -413,7 +413,7 @@ const Cart = () => {
       key: "title",
       render: (text, record) => (
         <div className="flex gap-5 text-[15px]">
-          <img
+          <Image
             src={getProductImage(record.id)}
             alt={text}
             style={{ width: 100, height: 80 }}
@@ -497,7 +497,7 @@ const Cart = () => {
 
       <Modal
         title={<span className="checkout-title">Checkout</span>}
-        visible={isCheckoutVisible}
+        open={isCheckoutVisible}
         onCancel={() => setIsCheckoutVisible(false)}
         footer={[
           <Button
@@ -532,7 +532,7 @@ const Cart = () => {
 
       <Modal
         title="User Information"
-        visible={isUserInfoVisible}
+        open={isUserInfoVisible}
         onCancel={() => setIsUserInfoVisible(false)}
         footer={[
           <div className="flex  justify-between space-x-[5px]">

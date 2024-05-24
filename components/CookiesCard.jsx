@@ -68,6 +68,7 @@ const CookiesCard = ({
               <Image
                 className=" translate-x-"
                 src={"/ADDTUCARTicon.png"}
+                alt="icon"
                 width={35}
                 height={35}
                 justify-end

@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar";
 import React, { useState, useEffect } from "react";
-import { Table, Modal, Input, Button, notification } from "antd";
+import { Table, Modal, Input, Button, notification, DatePicker } from "antd";
 import { DeleteOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import {
   IcedCoffee,
@@ -11,6 +11,8 @@ import {
   Pastries,
 } from "@/constant";
 import { useRouter } from "next/router";
+import moment from "moment";
+import Image from "next/image";
 
 const Cart = () => {
   const router = useRouter();
@@ -22,38 +24,38 @@ const Cart = () => {
   const [userInfo, setUserInfo] = useState({
     firstName: "",
     lastName: "",
-    date: "",
+    date: moment().format("MM-DD-YY"), // Set default date here
   });
 
   const [formErrors, setFormErrors] = useState({});
 
   const total = parseFloat(subTotal) + parseFloat(shippingCharge);
 
-  // Function to get today's date in the format "Month Day, Year"
-  const getTodayDate = () => {
-    const months = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
+  // // Function to get today's date in the format "Month Day, Year"
+  // const getTodayDate = () => {
+  //   const months = [
+  //     "January",
+  //     "February",
+  //     "March",
+  //     "April",
+  //     "May",
+  //     "June",
+  //     "July",
+  //     "August",
+  //     "September",
+  //     "October",
+  //     "November",
+  //     "December",
+  //   ];
 
-    const today = new Date();
-    const monthIndex = today.getMonth();
-    const month = months[monthIndex];
-    const day = today.getDate();
-    const year = today.getFullYear();
+  //   const today = new Date();
+  //   const monthIndex = today.getMonth();
+  //   const month = months[monthIndex];
+  //   const day = today.getDate();
+  //   const year = today.getFullYear();
 
-    return `${month} ${day}, ${year}`;
-  };
+  //   return `${month} ${day}, ${year}`;
+  // };
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -204,10 +206,11 @@ const Cart = () => {
             style={{ fontSize: "25px", cursor: "pointer" }}
             className="duration-300 hover:scale-150 hover:text-red"
           />
-          <img
+          <Image
             src={getProductImage(record.id)}
             alt={text}
-            style={{ width: 100, height: 80 }}
+            width={100}
+            height={80}
           />
           <p className="pt-[30px]">{text}</p>
         </div>
@@ -301,7 +304,6 @@ const Cart = () => {
     setIsCheckoutVisible(true);
   };
 
-
   const handleContinueClick = () => {
     setIsCheckoutVisible(false);
     setIsUserInfoVisible(true);
@@ -334,20 +336,20 @@ const Cart = () => {
     return errors;
   };
 
-  const handleCheckout = () => {
-    const errors = validateForm();
-    if (Object.keys(errors).length === 0) {
-      setIsUserInfoVisible(false);
-      setIsCheckoutVisible(true);
-    } else {
-      setFormErrors(errors);
-      notification.error({
-        message: "Form Error",
-        description: "Please fill out all required fields.",
-        duration: 3,
-      });
-    }
-  };
+  // const handleCheckout = () => {
+  //   const errors = validateForm();
+  //   if (Object.keys(errors).length === 0) {
+  //     setIsUserInfoVisible(false);
+  //     setIsCheckoutVisible(true);
+  //   } else {
+  //     setFormErrors(errors);
+  //     notification.error({
+  //       message: "Form Error",
+  //       description: "Please fill out all required fields.",
+  //       duration: 3,
+  //     });
+  //   }
+  // };
 
   const handleFinalCheckout = () => {
     const errors = validateForm();
@@ -413,10 +415,11 @@ const Cart = () => {
       key: "title",
       render: (text, record) => (
         <div className="flex gap-5 text-[15px]">
-          <img
+          <Image
             src={getProductImage(record.id)}
             alt={text}
-            style={{ width: 100, height: 80 }}
+            width={100}
+            height={80}
           />
           <p className="pt-[30px]">{text}</p>
         </div>
@@ -575,11 +578,13 @@ const Cart = () => {
           className="mb-2"
           status={formErrors.lastName ? "error" : ""}
         />
-        <Input
+        <DatePicker
           placeholder="Date"
           name="date"
-          value={userInfo.date || getTodayDate()}
-          onChange={handleUserInfoChange}
+          value={moment(userInfo.date)}
+          onChange={(date, dateString) =>
+            handleUserInfoChange("date", dateString)
+          }
           className="mb-2"
           status={formErrors.date ? "error" : ""}
         />

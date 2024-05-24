@@ -64,7 +64,7 @@ const CoffeeCard = ({id,imgUrl,title,price, quantity ,active,handleClick, setTot
                     
 
                     <button className="flex justify-between mb-2 gap-3 items-center bg-addtocartcolor px-3 py-2 rounded-lg" onClick={() => handleAddToCart(id, title, price, quantity)}>
-                        <Image className=" translate-x-" src={"/ADDTUCARTicon.png"} width={35} height={35} justify-end></Image>
+                        <Image className=" translate-x-" alt="icon" src={"/ADDTUCARTicon.png"} width={35} height={35} justify-end></Image>
                         <p className="hover:text-tahiti text-right">Add to cart</p>
                     </button>
                 </div>

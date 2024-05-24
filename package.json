@@ -11,8 +11,6 @@
   "dependencies": {
     "@next/font": "13.1.5",
     "antd": "^5.17.0",
-    "eslint": "8.32.0",
-    "eslint-config-next": "13.1.5",
     "framer-motion": "^8.5.5",
     "git-filter-repo": "^0.0.30",
     "moment": "^2.30.1",

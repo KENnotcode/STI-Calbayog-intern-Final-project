@@ -18,7 +18,10 @@ module.exports = {
       'red': '#FF0000',
       'dark-blue': '#00008B',
       'menuitemcolor': '#FCB900',
-      'addtocartcolor': "#FFA500"
+      'addtocartcolor': "#FFA500",
+      'nocolor': 'transparent',
+      'adminbg': '#24303f',
+      'sidebarcolor': '#1a222c'
     },
     extend: {},
   },

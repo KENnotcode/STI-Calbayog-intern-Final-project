@@ -146,6 +146,7 @@ const Cart = () => {
 
       // Save the updated cart data back to localStorage
       localStorage.setItem("data", JSON.stringify(updatedCartData));
+      localStorage.setItem("paraAdmin", JSON.stringify(parsedData));
 
       // Update the cart items map for state management
       if (typeof setCartItemsMap === "function") {

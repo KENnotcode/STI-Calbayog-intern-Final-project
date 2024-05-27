@@ -22,7 +22,7 @@ function Adminlogin() {
       alert("Login successful!");
       router.replace("/admin/dashboard");
     } else {
-        alert("Fuck you");
+        alert("Invalid Username or Password");
     }
   };
 

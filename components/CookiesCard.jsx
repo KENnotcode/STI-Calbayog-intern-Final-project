@@ -34,7 +34,6 @@ const CookiesCard = ({
 
     // Update local storage with modified or new data
     localStorage.setItem("data", JSON.stringify(parsedData));
-    localStorage.setItem("paraAdmin", JSON.stringify(parsedData));
     setTotalQuantity(getCount());
   };
 

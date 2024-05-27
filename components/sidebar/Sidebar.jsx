@@ -12,6 +12,7 @@ const Sidebar = () => {
   const handleEcommerceClick = () => {
     setEcommerceColor("#000"); // Change text color to black when eCommerce is clicked
     setStocksColor("#fff");
+    router.replace("/admin/dashboard")
 
   };
 
@@ -47,7 +48,7 @@ const Sidebar = () => {
           title={<span className="text-tahiti">Dashboard</span>}
         >
           <Menu.Item key="ecommerce" onClick={handleEcommerceClick}>
-            <span className="text-tahiti" style={{ color: ecommerceColor }}>eCommerce</span>
+            <span className="text-tahiti" style={{ color: ecommerceColor }}>Home</span>
           </Menu.Item>
 
           <Menu.Item key="stocks" onClick={handleStocksClick}>

@@ -14,6 +14,7 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 
 const Cart = () => {
+  const [stocks, setStocks] = useState([]);
   const router = useRouter();
   const [cartItemsMap, setCartItemsMap] = useState({});
   const [subTotal, setSubTotal] = useState(0);
@@ -25,6 +26,29 @@ const Cart = () => {
     lastName: "",
     date: "",
   });
+
+  useEffect(() => {
+    const storedStocks = JSON.parse(localStorage.getItem("StocksIneha")) || [];
+    if (storedStocks.length === 0) {
+      const initialStocks = [
+        ...IcedCoffee,
+        ...HotCoffee,
+        ...CreationSeries,
+        ...NonCoffee,
+        ...Frappes,
+        ...Pastries,
+      ].map((item) => ({
+        id: item.id,
+        product: item.title,
+        stocks: item.Stocks,
+        imgUrl: item.imgUrl,
+      }));
+      localStorage.setItem("StocksIneha", JSON.stringify(initialStocks));
+      setStocks(stocks);
+    } else {
+      setStocks(storedStocks);
+    }
+  }, []);
 
   const [formErrors, setFormErrors] = useState({});
 
@@ -57,6 +81,35 @@ const Cart = () => {
   };
   const storedData =
     typeof window !== "undefined" ? localStorage.getItem("data") : null;
+
+  const updateStocksAfterCheckout = (cartItems) => {
+    let existingStocksData = JSON.parse(localStorage.getItem("StocksIneha"));
+
+    if (!Array.isArray(existingStocksData)) {
+      console.error("Stock data not found in local storage.");
+      return;
+    }
+
+    // Iterate through each item in the cart
+    cartItems.forEach((cartItem) => {
+      // Find the corresponding item in the existing stocks data
+      const existingItem = existingStocksData.find(
+        (item) => item.id === cartItem.id
+      );
+
+      if (existingItem) {
+        // Update the stock count for the item
+        existingItem.stocks -= cartItem.quantity;
+      } else {
+        console.warn(
+          `Item with ID ${cartItem.id} not found in existing stocks data.`
+        );
+      }
+    });
+
+    // Update the local storage with the modified stocks data
+    localStorage.setItem("StocksIneha", JSON.stringify(existingStocksData));
+  };
 
   useEffect(() => {
     if (storedData) {
@@ -167,7 +220,7 @@ const Cart = () => {
       }
 
       // Calculate the total quantity of items in the cart
-      const updatedCount = updatedCartData.reduce( 
+      const updatedCount = updatedCartData.reduce(
         (acc, item) => acc + item.quantity,
         0
       );
@@ -338,20 +391,20 @@ const Cart = () => {
     return errors;
   };
 
-  const handleCheckout = () => {
-    const errors = validateForm();
-    if (Object.keys(errors).length === 0) {
-      setIsUserInfoVisible(false);
-      setIsCheckoutVisible(true);
-    } else {
-      setFormErrors(errors);
-      notification.error({
-        message: "Form Error",
-        description: "Please fill out all required fields.",
-        duration: 3,
-      });
-    }
-  };
+  // const handleCheckout = () => {
+  //   const errors = validateForm();
+  //   if (Object.keys(errors).length === 0) {
+  //     setIsUserInfoVisible(false);
+  //     setIsCheckoutVisible(true);
+  //   } else {
+  //     setFormErrors(errors);
+  //     notification.error({
+  //       message: "Form Error",
+  //       description: "Please fill out all required fields.",
+  //       duration: 3,
+  //     });
+  //   }
+  // };
 
   const handleFinalCheckout = () => {
     const errors = validateForm();
@@ -365,6 +418,16 @@ const Cart = () => {
         existingPurchaseData = [];
       }
 
+      // Retrieve cart data including quantity
+      const cartData = JSON.parse(localStorage.getItem("data"));
+
+      // Calculate total quantity from cartData
+      const totalQuantity = cartData
+        ? cartData
+            .map((item) => item.quantity)
+            .reduce((acc, quantity) => acc + quantity, 0)
+        : 0;
+
       // Create a new purchase object with user information, total, and additional data
       const newPurchase = {
         userInfo: {
@@ -373,7 +436,7 @@ const Cart = () => {
           date: userInfo.date,
         },
         total: total.toFixed(2),
-        // Add additional data properties here
+        quantity: totalQuantity, // Include total quantity from cartData
         additionalData1: "value1",
         additionalData2: "value2",
       };
@@ -386,6 +449,8 @@ const Cart = () => {
         "purchaseData",
         JSON.stringify(existingPurchaseData)
       );
+
+      updateStocksAfterCheckout(Object.values(cartItemsMap));
 
       // Clear the cart data from local storage
       localStorage.removeItem("data");

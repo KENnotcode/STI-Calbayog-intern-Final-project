@@ -1,3 +1,5 @@
+
+
 export const IcedCoffee = [
   {
     id: "icedcoffee1",
@@ -5,6 +7,7 @@ export const IcedCoffee = [
     title: "Americano",
     price: "₱80",
     quantity: "1",
+    Stocks: "100",
   },
   {
     id: "icedcoffee2",
@@ -12,6 +15,7 @@ export const IcedCoffee = [
     title: "Caffe Latte",
     price: "₱90",
     quantity: "1",
+    Stocks: "100",
   },
   {
     id: "icedcoffee3",
@@ -19,6 +23,7 @@ export const IcedCoffee = [
     title: "Kopi",
     price: "₱90",
     quantity: "1",
+    Stocks: "100",
   },
   {
     id: "icedcoffee4",
@@ -26,6 +31,7 @@ export const IcedCoffee = [
     title: "Mocha Down Under",
     price: "₱120",
     quantity: "1",
+    Stocks: "100",
   },
   {
     id: "icedcoffee5",
@@ -33,6 +39,7 @@ export const IcedCoffee = [
     title: "Spanish Latte",
     price: "₱90",
     quantity: "1",
+    Stocks: "100",
   },
 
   {
@@ -41,6 +48,7 @@ export const IcedCoffee = [
     title: "Flavored Latte",
     price: "₱120",
     quantity: "1",
+    Stocks: "100",
   },
   {
     id: "icedcoffee7",
@@ -48,6 +56,7 @@ export const IcedCoffee = [
     title: "White Chocolate Mocha",
     price: "₱120",
     quantity: "1",
+    Stocks: "100",
   },
 
   //-----Add-ons/Extra-----
@@ -79,7 +88,7 @@ export const HotCoffee = [
     title: "Hot Americano",
     price: "₱80",
     quantity: "1",
-    alt: "23",
+    Stocks: "100",
   },
   {
     id: "hotcoffee2",
@@ -87,6 +96,7 @@ export const HotCoffee = [
     title: "Hot Latte | Capp",
     price: "₱90",
     quantity: "1",
+    Stocks: "100",
   },
   {
     id: "hotcoffee3",
@@ -94,6 +104,7 @@ export const HotCoffee = [
     title: "Hot Kopi",
     price: "₱90",
     quantity: "1",
+    Stocks: "100",
   },
   {
     id: "hotcoffee5",
@@ -101,6 +112,7 @@ export const HotCoffee = [
     title: "Hot Mocha Down Under",
     price: "₱120",
     quantity: "1",
+    Stocks: "100",
   },
   {
     id: "hotcoffee4",
@@ -108,6 +120,7 @@ export const HotCoffee = [
     title: "Hot Spanish Latte",
     price: "₱90",
     quantity: "1",
+    Stocks: "100",
   },
 
   {
@@ -116,6 +129,7 @@ export const HotCoffee = [
     title: "Hot Flavored Latte",
     price: "₱120",
     quantity: "1",
+    Stocks: "100",
   },
   {
     id: "hotcoffee7",
@@ -123,6 +137,7 @@ export const HotCoffee = [
     title: "Hot White Chocolate Mocha",
     price: "₱120",
     quantity: "1",
+    Stocks: "100",
   },
 ];
 
@@ -133,6 +148,7 @@ export const CreationSeries = [
     title: "Barista Choice",
     price: "₱120",
     quantity: "1",
+    Stocks: "100",
   },
   {
     id: "CreationSeries3",
@@ -140,6 +156,7 @@ export const CreationSeries = [
     title: "Tofee Nut Creme",
     price: "₱140",
     quantity: "1",
+    Stocks: "100",
   },
   {
     id: "CreationSeries2",
@@ -147,6 +164,7 @@ export const CreationSeries = [
     title: "White Mocha Breve",
     price: "₱120",
     quantity: "1",
+    Stocks: "100",
   },
 ];
 
@@ -157,6 +175,7 @@ export const NonCoffee = [
     title: "Summer Fling",
     price: "₱70",
     quantity: "1",
+    Stocks: "100",
   },
   {
     id: "NonCoffee2",
@@ -164,6 +183,7 @@ export const NonCoffee = [
     title: "Soda Cooler",
     price: "₱70",
     quantity: "1",
+    Stocks: "100",
   },
   {
     id: "NonCoffee3",
@@ -171,6 +191,7 @@ export const NonCoffee = [
     title: "Xocolatte",
     price: "₱120",
     quantity: "1",
+    Stocks: "100",
   },
   {
     id: "NonCoffee4",
@@ -178,6 +199,7 @@ export const NonCoffee = [
     title: "Green Tea Latte",
     price: "₱120",
     quantity: "1",
+    Stocks: "100",
   },
 ];
 
@@ -188,13 +210,15 @@ export const Frappes = [
     title: "Java Chips Cappuccino",
     price: "₱130",
     quantity: "1",
-  },  
+    Stocks: "100",
+  },
   {
     id: "Frappes3",
     imgUrl: "/image/Frappes/greenteamatcha.png",
     title: "Green Tea Matcha",
     price: "₱130",
     quantity: "1",
+    Stocks: "100",
   },
   {
     id: "Frappes2",
@@ -202,6 +226,7 @@ export const Frappes = [
     title: "Cookies and Cream",
     price: "₱130",
     quantity: "1",
+    Stocks: "100",
   },
   {
     id: "Frappes4",
@@ -209,6 +234,7 @@ export const Frappes = [
     title: "White Chocolate Mocha",
     price: "₱130",
     quantity: "1",
+    Stocks: "100",
   },
   {
     id: "Frappes5",
@@ -216,22 +242,25 @@ export const Frappes = [
     title: "Strawberry Creme",
     price: "₱130",
     quantity: "1",
+    Stocks: "100",
   },
 ];
 
 export const Pastries = [
   {
     id: "Pastries1",
-    imgUrl: "/image/Pastries/ensaymada2.jpg",
+    imgUrl: "/image/Pastries/ensaymada2.png",
     title: "Classic Ensaymada",
     price: "₱45",
     quantity: "1",
+    Stocks: "100",
   },
   {
     id: "Pastries2",
-    imgUrl: "/image/Pastries/cookies.jpg",
+    imgUrl: "/image/Pastries/cookies.png",
     title: "Cookies",
     price: "₱39",
     quantity: "1",
+    Stocks: "100",
   },
 ];

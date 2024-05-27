@@ -49,7 +49,9 @@ const Stocks = () => {
         : item
     );
     setStocks(updatedStocks);
+
     localStorage.setItem("StocksIneha", JSON.stringify(updatedStocks));
+    console.log("Dispatching event...");
   };
 
   const handleSubtractStock = (record) => {
@@ -92,8 +94,8 @@ const Stocks = () => {
     setIsModalOpen(false);
   };
 
+
   useEffect(() => {
-    const initialStock = 500;
 
     const storedStocks = JSON.parse(localStorage.getItem("StocksIneha")) || [];
     if (storedStocks.length === 0) {
@@ -108,11 +110,11 @@ const Stocks = () => {
         id: item.id,
         product: item.title,
         price: parsePrice(item.price),
-        stocks: initialStock,
+        stocks: item.Stocks,
         imgUrl: item.imgUrl,
       }));
       localStorage.setItem("StocksIneha", JSON.stringify(initialStocks));
-      setStocks(initialStocks);
+      setStocks(stocks);
     } else {
       setStocks(storedStocks);
     }
@@ -124,17 +126,15 @@ const Stocks = () => {
       dataIndex: "product",
       key: "product",
       render: (text, record) => (
-        (
-          <div className="flex items-center">
-            <Image
-              src={getProductImage(record.id)}
-              alt={text}
-              width={100}
-              height={100}
-            />
-            <p>{text}</p>
-          </div>
-        )
+        <div className="flex items-center">
+          <Image
+            src={getProductImage(record.id)}
+            alt={text}
+            width={100}
+            height={100}
+          />
+          <p>{text}</p>
+        </div>
       ),
     },
     {
@@ -143,11 +143,10 @@ const Stocks = () => {
       key: "price",
       render: (price) => {
         // Check if price is a string and contains the currency symbol "₱"
-        if (typeof price === 'string' && price.includes("₱")) {
-          // Remove the currency symbol and parse the numeric value
+        if (typeof price === "string" && price.includes("₱")) {
           const numericPrice = parseFloat(price.replace("₱", ""));
           if (!isNaN(numericPrice)) {
-            return `₱${numericPrice.toFixed(2)}`;
+            return `₱ adsfasdasd${numericPrice.toFixed(2)}`;
           }
         }
         // If price is not in the expected format, return it as is
@@ -158,7 +157,7 @@ const Stocks = () => {
       title: "Stocks",
       dataIndex: "stocks",
       key: "stocks",
-    },    
+    },
     {
       title: "Actions",
       dataIndex: "actions",

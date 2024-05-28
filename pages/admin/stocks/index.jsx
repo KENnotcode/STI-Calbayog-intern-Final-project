@@ -94,9 +94,7 @@ const Stocks = () => {
     setIsModalOpen(false);
   };
 
-
   useEffect(() => {
-
     const storedStocks = JSON.parse(localStorage.getItem("StocksIneha")) || [];
     if (storedStocks.length === 0) {
       const initialStocks = [

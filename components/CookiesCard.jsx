@@ -35,6 +35,26 @@ const CookiesCard = ({
     // Update local storage with modified or new data
     localStorage.setItem("data", JSON.stringify(parsedData));
     setTotalQuantity(getCount());
+
+    // Retrieve existing data from the "paraTable" key in local storage
+    const existingParaTable = localStorage.getItem("paraTable") || "[]";
+    let parsedParaTable = JSON.parse(existingParaTable);
+
+    // Check if item with the same ID already exists in "paraTable"
+    const existingItemIndexParaTable = parsedParaTable.findIndex(
+      (item) => item.id === id
+    );
+
+    if (existingItemIndexParaTable !== -1) {
+      // Item already exists in "paraTable", increment its quantity
+      parsedParaTable[existingItemIndexParaTable].quantity += 1;
+    } else {
+      // Item doesn't exist in "paraTable", add it
+      parsedParaTable.push({ id: id, title: title, price: price, quantity: 1 });
+    }
+
+    // Update local storage with modified or new data for "paraTable" key
+    localStorage.setItem("paraTable", JSON.stringify(parsedParaTable));
   };
 
   return (

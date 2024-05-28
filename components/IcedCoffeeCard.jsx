@@ -17,12 +17,21 @@ const IcedCoffeeCard = ({
     return countData.length;
   };
 
+  const updateParaTable = (data) => {
+    const paraTableData = data.map(item => ({
+      ...item,
+      'Total Items Sold': item.quantity // Add 'Total Items Sold' field
+    }));
+  
+    localStorage.setItem("paraTable", JSON.stringify(paraTableData));
+  };  
+
   const handleAddToCart = (id, title, price, quantity) => {
     const prevData = localStorage.getItem("data") || "[]";
     let parsedData = JSON.parse(prevData);
 
     // Check if item with the same ID already exists
-    const existingItemIndex = parsedData.findIndex(item => item.id === id);
+    const existingItemIndex = parsedData.findIndex((item) => item.id === id);
 
     if (existingItemIndex !== -1) {
       // Item already exists, increment its quantity
@@ -34,7 +43,39 @@ const IcedCoffeeCard = ({
 
     // Update local storage with modified or new data
     localStorage.setItem("data", JSON.stringify(parsedData));
+      // Update the paraTable with the modified structure
+  const updateParaTable = (data) => {
+    const paraTableData = data.map(item => ({
+      ...item,
+      'Total Items Sold': item.quantity // Add 'Total Items Sold' field
+    }));
+
+    localStorage.setItem("paraTable", JSON.stringify(paraTableData));
+  }
+    updateParaTable(parsedData);
+
+  setTotalQuantity(parsedData.reduce((total, item) => total + item.quantity, 0));
     setTotalQuantity(getCount());
+
+    // Retrieve existing data from the "paraTable" key in local storage
+    const existingParaTable = localStorage.getItem("paraTable") || "[]";
+    let parsedParaTable = JSON.parse(existingParaTable);
+
+    // Check if item with the same ID already exists in "paraTable"
+    const existingItemIndexParaTable = parsedParaTable.findIndex(
+      (item) => item.id === id
+    );
+
+    if (existingItemIndexParaTable !== -1) {
+      // Item already exists in "paraTable", increment its quantity
+      parsedParaTable[existingItemIndexParaTable].quantity += 1;
+    } else {
+      // Item doesn't exist in "paraTable", add it
+      parsedParaTable.push({ id: id, title: title, price: price, quantity: 1 });
+    }
+
+    // Update local storage with modified or new data for "paraTable" key
+    localStorage.setItem("paraTable", JSON.stringify(parsedParaTable));
   };
 
   return (

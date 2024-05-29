@@ -12,8 +12,11 @@ import {
 } from "@/constant";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import dayjs from "dayjs";
 
 const Cart = () => {
+  const currentDate = dayjs().format("YYYY-MM-DD");
+  console.log("current ine ", currentDate);
   const [stocks, setStocks] = useState([]);
   const router = useRouter();
   const [cartItemsMap, setCartItemsMap] = useState({});
@@ -24,7 +27,7 @@ const Cart = () => {
   const [userInfo, setUserInfo] = useState({
     firstName: "",
     lastName: "",
-    date: "",
+    date: currentDate,
   });
 
   useEffect(() => {
@@ -413,7 +416,6 @@ const Cart = () => {
       return total + itemQuantity;
     }, 0);
   };
-  
 
   const handleFinalCheckout = () => {
     const errors = validateForm();
@@ -421,22 +423,25 @@ const Cart = () => {
       let existingPurchaseData = JSON.parse(
         localStorage.getItem("purchaseData")
       );
-  
+
       // Check if existingPurchaseData is an array, if not initialize it as an empty array
       if (!Array.isArray(existingPurchaseData)) {
         existingPurchaseData = [];
       }
-  
+
       // Retrieve cart data including quantity and unique IDs
       const cartData = JSON.parse(localStorage.getItem("data"));
-  
-    // Calculate total quantity from cartData
-    const totalQuantity = cartData
-      ? cartData.reduce((acc, item) => acc + (item.quantity ? Number(item.quantity) : 0), 0)
-      : 0;
 
-        const ItemSold = getTotalQuantityFromData();
-  
+      // Calculate total quantity from cartData
+      const totalQuantity = cartData
+        ? cartData.reduce(
+            (acc, item) => acc + (item.quantity ? Number(item.quantity) : 0),
+            0
+          )
+        : 0;
+
+      const ItemSold = getTotalQuantityFromData();
+
       // Create a new purchase object with user information, total, additional data, unique IDs, and quantities
       const newPurchase = {
         userInfo: {
@@ -446,7 +451,7 @@ const Cart = () => {
         },
         total: total.toFixed(2),
         quantity: totalQuantity, // Include total quantity from cartData
-        // Add unique IDs and quantities from 
+        // Add unique IDs and quantities from
         ItemSold: ItemSold,
         cartItems: cartData.map((item) => ({
           id: item.id,
@@ -454,21 +459,21 @@ const Cart = () => {
           quantity: item.quantity,
         })),
       };
-  
+
       // Push the new purchase data to the existing array
       existingPurchaseData.push(newPurchase);
-  
+
       // Save the updated array back to local storage
       localStorage.setItem(
         "purchaseData",
         JSON.stringify(existingPurchaseData)
       );
-  
+
       updateStocksAfterCheckout(Object.values(cartItemsMap));
-  
+
       // Clear the cart data from local storage
       localStorage.removeItem("data");
-  
+
       notification.success({
         message: "Purchase Successful",
         description:
@@ -476,7 +481,7 @@ const Cart = () => {
         duration: 3,
       });
       setIsCheckoutVisible(false);
-  
+
       // After clicking the checkout button, it will redirect to parent home page
       router.push("/#home");
     } else {
@@ -530,6 +535,7 @@ const Cart = () => {
       ),
     },
   ];
+  console.log("asdasdasd", userInfo.date || getTodayDate());
 
   return (
     <div className="bg-tahiti pb-24 text-[15px]">
@@ -677,11 +683,10 @@ const Cart = () => {
         />
         <Input
           placeholder="Date"
+          type="date"
           name="date"
-          value={userInfo.date || getTodayDate()}
+          defaultValue={currentDate}
           onChange={handleUserInfoChange}
-          className="mb-2"
-          status={formErrors.date ? "error" : ""}
         />
       </Modal>
     </div>

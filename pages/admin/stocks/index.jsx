@@ -28,18 +28,12 @@ const Stocks = () => {
       ...Pastries,
     ];
     const product = allProducts.find((item) => item.id === productId);
-    console.log(
-      "Product image for ID:",
-      productId,
-      "is",
-      product ? product.imgUrl : "not found"
-    );
-    return product ? product.imgUrl : ""; // Ensure that product.imgUrl is returned
+    return product ? product.imgUrl : "";
   };
 
   const parsePrice = (price) => {
     const numericPrice = parseFloat(price.replace("₱", ""));
-    return isNaN(numericPrice) ? 0 : numericPrice;
+    return isNaN(numericPrice) ? 0.00 : numericPrice.toFixed(2);
   };
 
   const handleAddStock = (record) => {
@@ -49,9 +43,7 @@ const Stocks = () => {
         : item
     );
     setStocks(updatedStocks);
-
     localStorage.setItem("StocksIneha", JSON.stringify(updatedStocks));
-    console.log("Dispatching event...");
   };
 
   const handleSubtractStock = (record) => {
@@ -140,15 +132,12 @@ const Stocks = () => {
       dataIndex: "price",
       key: "price",
       render: (price) => {
-        // Check if price is a string and contains the currency symbol "₱"
-        if (typeof price === "string" && price.includes("₱")) {
-          const numericPrice = parseFloat(price.replace("₱", ""));
-          if (!isNaN(numericPrice)) {
-            return `₱ adsfasdasd${numericPrice.toFixed(2)}`;
-          }
+        console.log("Rendering price:", price);
+        const numericPrice = parseFloat(price);
+        if (!isNaN(numericPrice)) {
+          return `₱${numericPrice.toFixed(2)}`;
         }
-        // If price is not in the expected format, return it as is
-        return price;
+        return `₱0.00`; // If price is not a number, return default value
       },
     },
     {
@@ -168,10 +157,7 @@ const Stocks = () => {
           <Button className="w-full" onClick={() => handleOutOfStock(record)}>
             Out of Stock
           </Button>
-          <Button
-            className="w-full"
-            onClick={() => handleSubtractStock(record)}
-          >
+          <Button className="w-full" onClick={() => handleSubtractStock(record)}>
             Subtract
           </Button>
           <Button className="w-full" onClick={() => handleBackOnStock(record)}>
@@ -181,6 +167,7 @@ const Stocks = () => {
       ),
     },
   ];
+  console.log("123123", stocks);
 
   return (
     <div className="flex ">
@@ -206,6 +193,7 @@ const Stocks = () => {
         open={isModalOpen}
         onOk={handleModalOk}
         onCancel={handleModalCancel}
+        okButtonProps={{ style: {  border: "0.5px solid black", borderColor: "rgba(0,0,0,0.2)", color: "black"  } }}
       >
         <Input
           type="number"

@@ -1,6 +1,9 @@
 // pages/auth.js
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 function Adminlogin() {
   const [email, setEmail] = useState("");
@@ -13,16 +16,16 @@ function Adminlogin() {
     event.preventDefault();
 
     if (email.trim() === "" || password.trim() === "") {
-      alert("Email and password must not be empty.");
+      toast.error("Email and password must not be empty.");
       return;
     }
 
-    if (email === "coffee.first.calbayog@gmail.com" && password === "coffeefirst") {
+    if (email === "coffeefirstcalbayog@gmail.com" && password === "coffeefirst") {
       localStorage.setItem("loggedInUser", JSON.stringify({email, username, role}));
-      alert("Login successful!");
+      toast.success("Login successful!");
       router.replace("/admin/dashboard");
     } else {
-        alert("Invalid Username or Password");
+        toast.error("Invalid Username or Password");
     }
   };
 
@@ -74,6 +77,7 @@ function Adminlogin() {
             </button>
           </div>
         </form>
+        <ToastContainer />
       </div>
     </div>
   );

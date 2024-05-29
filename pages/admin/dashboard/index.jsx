@@ -46,6 +46,8 @@ const Dashboard = () => {
       });
     }
 
+    console.log("dasdasd", chartData);
+
     return chartData;
   };
 
@@ -93,13 +95,13 @@ const Dashboard = () => {
 
   const getDayLabel = (day) => {
     const dayNames = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
+      "Sun",
+      "Mon",
+      "Tue",
+      "Wed",
+      "Thur",
+      "Fri",
+      "Sat",
     ];
     return dayNames[day];
   };
@@ -210,7 +212,7 @@ const Dashboard = () => {
           </div>
           <div className="flex-grow bg-adminbg text-tahiti mr-16 p-4 flex justify-between flex-col items-center">
             <MoneyCollectOutlined className="mr-2 text-[60px]" />
-            <p className="font-semibold text-[20px]">P{totalRevenue}</p>
+            <p className="font-semibold text-[20px]">₱{totalRevenue}</p>
             <p>Total Revenue</p>
           </div>
           <div className="flex-grow bg-adminbg text-tahiti mr-16 p-4 flex justify-between flex-col items-center">
@@ -282,18 +284,18 @@ const Dashboard = () => {
 
 const getMonthLabel = (month) => {
   const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
     "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
   ];
   return monthNames[month - 1];
 };

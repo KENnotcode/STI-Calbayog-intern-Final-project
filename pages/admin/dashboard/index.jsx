@@ -213,7 +213,12 @@ const Dashboard = () => {
               <p className="text-sm">Stocks</p>
             </div>
             <div className="flex-grow bg-adminbg text-tahiti mr-16 p-4 flex justify-between flex-col items-center">
-              <MoneyCollectOutlined className="mr-2 text-[60px]" />
+              <Image
+                src={"/TOTALrev.png"}
+                alt="icon"
+                width={60}
+                height={60}
+              ></Image>
               <p className="font-semibold text-[20px]">₱{totalRevenue}</p>
               <p>Total Revenue</p>
             </div>

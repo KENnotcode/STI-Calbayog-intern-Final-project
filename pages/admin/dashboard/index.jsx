@@ -191,11 +191,9 @@ const Dashboard = () => {
     };
   }, []);
 
-
-
   return (
     <>
-          <Head>
+      <Head>
         <title>Coffee First - Admin Dashboard</title>
         <meta name="description" content="freshcoffee website" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -208,7 +206,12 @@ const Dashboard = () => {
 
           <div className="ml-[210px] pt-6 mt-[70px] grid grid-cols-1 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
             <div className="flex-grow bg-adminbg text-tahiti ml-5 mr-16 p-4 flex justify-between flex-col items-center">
-              <StockOutlined className="mr-2 text-[60px]" />
+              <Image
+                src={"/STOCKS.png"}
+                alt="icon"
+                width={60}
+                height={60}
+              ></Image>
               <p className="font-semibold text-[20px]">{totalStocks}</p>
               <p className="text-sm">Stocks</p>
             </div>

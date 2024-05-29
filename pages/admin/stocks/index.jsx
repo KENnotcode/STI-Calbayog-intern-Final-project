@@ -11,6 +11,7 @@ import {
   Pastries,
 } from "@/constant";
 import Image from "next/image";
+import Head from "next/head";
 
 const Stocks = () => {
   const [stocks, setStocks] = useState([]);
@@ -33,7 +34,7 @@ const Stocks = () => {
 
   const parsePrice = (price) => {
     const numericPrice = parseFloat(price.replace("₱", ""));
-    return isNaN(numericPrice) ? 0.00 : numericPrice.toFixed(2);
+    return isNaN(numericPrice) ? 0.0 : numericPrice.toFixed(2);
   };
 
   const handleAddStock = (record) => {
@@ -135,9 +136,9 @@ const Stocks = () => {
         console.log("Rendering price:", price);
         const numericPrice = parseFloat(price);
         if (!isNaN(numericPrice)) {
-          return `₱${numericPrice.toFixed(2)}`;
+          return `₱${numericPrice.toFixed(0)}`;
         }
-        return `₱0.00`; // If price is not a number, return default value
+        return; // If price is not a number, return default value
       },
     },
     {
@@ -157,7 +158,10 @@ const Stocks = () => {
           <Button className="w-full" onClick={() => handleOutOfStock(record)}>
             Out of Stock
           </Button>
-          <Button className="w-full" onClick={() => handleSubtractStock(record)}>
+          <Button
+            className="w-full"
+            onClick={() => handleSubtractStock(record)}
+          >
             Subtract
           </Button>
           <Button className="w-full" onClick={() => handleBackOnStock(record)}>
@@ -167,41 +171,55 @@ const Stocks = () => {
       ),
     },
   ];
-  console.log("123123", stocks);
 
   return (
-    <div className="flex ">
-      <div className="flex flex-col w-full">
-        <Header />
-        <div className="flex">
-          <Sidebar />
-          <div className=" ml-[200px]">
-            <div className="p-6 mt-[70px]">
-              <Table
-                columns={columns}
-                dataSource={stocks}
-                rowKey="id"
-                scroll={{ y: 500 }}
-                pagination={false}
-              />
+    <>
+      <Head>
+        <title>Coffee First - Admim Stocks</title>
+        <meta name="description" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" alt="icon" href="/BASTAfavicon.png" />
+      </Head>
+
+      <div className="flex ">
+        <div className="flex flex-col w-full">
+          <Header />
+          <div className="flex">
+            <Sidebar />
+            <div className=" ml-[200px]">
+              <div className="p-6 mt-[70px]">
+                <Table
+                  columns={columns}
+                  dataSource={stocks}
+                  rowKey="id"
+                  scroll={{ y: 500 }}
+                  pagination={false}
+                />
+              </div>
             </div>
           </div>
         </div>
+        <Modal
+          title="Back on Stock"
+          open={isModalOpen}
+          onOk={handleModalOk}
+          onCancel={handleModalCancel}
+          okButtonProps={{
+            style: {
+              border: "0.5px solid black",
+              borderColor: "rgba(0,0,0,0.2)",
+              color: "black"
+            },
+          }}
+        >
+          <Input
+            type="number"
+            value={newStock}
+            onChange={(e) => setNewStock(e.target.value)}
+          />
+        </Modal>
       </div>
-      <Modal
-        title="Back on Stock"
-        open={isModalOpen}
-        onOk={handleModalOk}
-        onCancel={handleModalCancel}
-        okButtonProps={{ style: {  border: "0.5px solid black", borderColor: "rgba(0,0,0,0.2)", color: "black"  } }}
-      >
-        <Input
-          type="number"
-          value={newStock}
-          onChange={(e) => setNewStock(e.target.value)}
-        />
-      </Modal>
-    </div>
+    </>
   );
 };
 

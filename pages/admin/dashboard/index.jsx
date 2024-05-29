@@ -12,6 +12,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import Head from "next/head";
 
 const Dashboard = () => {
   const [totalQuantity, setTotalQuantity] = useState(0);
@@ -94,15 +95,7 @@ const Dashboard = () => {
   };
 
   const getDayLabel = (day) => {
-    const dayNames = [
-      "Sun",
-      "Mon",
-      "Tue",
-      "Wed",
-      "Thur",
-      "Fri",
-      "Sat",
-    ];
+    const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
     return dayNames[day];
   };
 
@@ -198,87 +191,97 @@ const Dashboard = () => {
     };
   }, []);
 
+
+
   return (
-    <div className="bg-sidebarcolor pb-[27px]">
-      <div className="flex">
-        <Sidebar />
-        <Header />
+    <>
+          <Head>
+        <title>Coffee First - Admin Dashboard</title>
+        <meta name="description" content="freshcoffee website" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" alt="icon" href="/BASTAfavicon.png" />
+      </Head>
+      <div className="bg-sidebarcolor pb-[27px]">
+        <div className="flex">
+          <Sidebar />
+          <Header />
 
-        <div className="ml-[210px] pt-6 mt-[70px] grid grid-cols-1 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-          <div className="flex-grow bg-adminbg text-tahiti ml-5 mr-16 p-4 flex justify-between flex-col items-center">
-            <StockOutlined className="mr-2 text-[60px]" />
-            <p className="font-semibold text-[20px]">{totalStocks}</p>
-            <p className="text-sm">Stocks</p>
-          </div>
-          <div className="flex-grow bg-adminbg text-tahiti mr-16 p-4 flex justify-between flex-col items-center">
-            <MoneyCollectOutlined className="mr-2 text-[60px]" />
-            <p className="font-semibold text-[20px]">₱{totalRevenue}</p>
-            <p>Total Revenue</p>
-          </div>
-          <div className="flex-grow bg-adminbg text-tahiti mr-16 p-4 flex justify-between flex-col items-center">
-            <Image src="/SOLD-Icon.png" width={60} height={60} />
-            <p className="font-semibold text-[20px]">{totalQuantity}</p>
-            <p>Total Item Sold</p>
+          <div className="ml-[210px] pt-6 mt-[70px] grid grid-cols-1 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
+            <div className="flex-grow bg-adminbg text-tahiti ml-5 mr-16 p-4 flex justify-between flex-col items-center">
+              <StockOutlined className="mr-2 text-[60px]" />
+              <p className="font-semibold text-[20px]">{totalStocks}</p>
+              <p className="text-sm">Stocks</p>
+            </div>
+            <div className="flex-grow bg-adminbg text-tahiti mr-16 p-4 flex justify-between flex-col items-center">
+              <MoneyCollectOutlined className="mr-2 text-[60px]" />
+              <p className="font-semibold text-[20px]">₱{totalRevenue}</p>
+              <p>Total Revenue</p>
+            </div>
+            <div className="flex-grow bg-adminbg text-tahiti mr-16 p-4 flex justify-between flex-col items-center">
+              <Image src="/SOLD-Icon.png" width={60} height={60} />
+              <p className="font-semibold text-[20px]">{totalQuantity}</p>
+              <p>Total Item Sold</p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="bg-adminbg ml-[230px] pt-6 mt-[40px] max-w-[11.5in] relative">
-        <div className=" pl-[630px] pb-2 ml-[10px] z-10 flex space-x-2">
-          <select
-            value={selectedSort}
-            onChange={handleSortChange}
-            className="px-4 py-2 bg-tahiti rounded-lg border border-gray-300"
-          >
-            <option value="year">Sort by Year</option>
-            <option value="week">Sort by Week</option>
-          </select>
-          {selectedSort === "week" && (
-            <>
-              <select
-                value={selectedMonth}
-                onChange={handleMonthChange}
-                className="px-4 py-2 bg-white rounded-lg border border-gray-300"
-              >
-                {Array.from({ length: 12 }, (_, i) => (
-                  <option key={i + 1} value={i + 1}>
-                    {getMonthLabel(i + 1)}
-                  </option>
-                ))}
-              </select>
-              <select
-                value={selectedWeek}
-                onChange={handleWeekChange}
-                className="px-4 py-2 bg-white rounded-lg border border-gray-300"
-              >
-                {Array.from({ length: 5 }, (_, i) => (
-                  <option key={i + 1} value={i + 1}>
-                    Week {i + 1}
-                  </option>
-                ))}
-              </select>
-            </>
-          )}
+        <div className="bg-adminbg ml-[230px] pt-6 mt-[40px] max-w-[11.5in] relative">
+          <div className=" pl-[630px] pb-2 ml-[10px] z-10 flex space-x-2">
+            <select
+              value={selectedSort}
+              onChange={handleSortChange}
+              className="px-4 py-2 bg-tahiti rounded-lg border border-gray-300"
+            >
+              <option value="year">Sort by Year</option>
+              <option value="week">Sort by Week</option>
+            </select>
+            {selectedSort === "week" && (
+              <>
+                <select
+                  value={selectedMonth}
+                  onChange={handleMonthChange}
+                  className="px-4 py-2 bg-white rounded-lg border border-gray-300"
+                >
+                  {Array.from({ length: 12 }, (_, i) => (
+                    <option key={i + 1} value={i + 1}>
+                      {getMonthLabel(i + 1)}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  value={selectedWeek}
+                  onChange={handleWeekChange}
+                  className="px-4 py-2 bg-white rounded-lg border border-gray-300"
+                >
+                  {Array.from({ length: 5 }, (_, i) => (
+                    <option key={i + 1} value={i + 1}>
+                      Week {i + 1}
+                    </option>
+                  ))}
+                </select>
+              </>
+            )}
+          </div>
+          <ResponsiveContainer width="100%" height={300}>
+            <AreaChart
+              data={chartData}
+              margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Area
+                type="monotone"
+                dataKey="ItemSold"
+                stroke="#8884d8"
+                fill="#8884d8"
+              />
+            </AreaChart>
+          </ResponsiveContainer>
         </div>
-        <ResponsiveContainer width="100%" height={300}>
-          <AreaChart
-            data={chartData}
-            margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Area
-              type="monotone"
-              dataKey="ItemSold"
-              stroke="#8884d8"
-              fill="#8884d8"
-            />
-          </AreaChart>
-        </ResponsiveContainer>
       </div>
-    </div>
+    </>
   );
 };
 

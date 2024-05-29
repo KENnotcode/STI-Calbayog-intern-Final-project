@@ -13,6 +13,7 @@ import {
 import { useRouter } from "next/router";
 import Image from "next/image";
 import dayjs from "dayjs";
+import Head from "next/head";
 
 const Cart = () => {
   const currentDate = dayjs().format("YYYY-MM-DD");
@@ -531,165 +532,176 @@ const Cart = () => {
       key: "subTotal",
       align: "center",
       render: (text) => (
-        <span className="text-[15px]">₱{parseFloat(text).toFixed(2) || 0}</span>
+        <span className="text-[15px]">₱{parseFloat(text).toFixed(0) || 0}</span>
       ),
     },
   ];
-  console.log("asdasdasd", userInfo.date || getTodayDate());
 
   return (
-    <div className="bg-tahiti pb-24 text-[15px]">
-      <Navbar />
-      <div className="pl-[90px] pr-[50px] pt-[82px]">
-        <Table
-          columns={columns}
-          dataSource={Object.values(cartItemsMap).map((item, index) => ({
-            ...item,
-            key: index.cartems, // Provide a unique key for each row
-          }))}
-          pagination={false}
-          bordered
-          size="small"
-        />
-      </div>
+    <>
+      <Head>
+        <title>Coffee First - Cart</title>
+        <meta name="description" content="freshcoffee website" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" alt="icon" href="/BASTAfavicon.png" />
+      </Head>
+      <div className="bg-tahiti pb-24 text-[15px]">
+        <Navbar />
+        <div className="pl-[90px] pr-[50px] pt-[82px]">
+          <Table
+            columns={columns}
+            dataSource={Object.values(cartItemsMap).map((item, index) => ({
+              ...item,
+              key: index.cartems, // Provide a unique key for each row
+            }))}
+            pagination={false}
+            bordered
+            size="small"
+          />
+        </div>
 
-      <div className="flex justify-end  pl-32">
-        <Table
-          columns={totalColumns}
-          dataSource={totalData.map((item, index) => ({
-            ...item,
-            key: index.datas, // Provide a unique key for each row
-          }))}
-          pagination={false}
-          size="large"
-          showHeader={false}
-          width={100}
-          height={80}
-          bordered={{
-            border: "2px solid #000",
-            borderRadius: "5px",
-          }}
-          className="mt-10 mr-24"
-        />
-      </div>
+        <div className="flex justify-end  pl-32">
+          <Table
+            columns={totalColumns}
+            dataSource={totalData.map((item, index) => ({
+              ...item,
+              key: index.datas, // Provide a unique key for each row
+            }))}
+            pagination={false}
+            size="large"
+            showHeader={false}
+            width={100}
+            height={80}
+            bordered={{
+              border: "2px solid #000",
+              borderRadius: "5px",
+            }}
+            className="mt-10 mr-24"
+          />
+        </div>
 
-      <div className=" flex justify-end pr-28 pt-3">
-        <button
-          className=" bg-addtocartcolor pt-[5px] pb-1 px-[5px] pl-[7px] pr-[7px] rounded-md hover:text-tahiti"
-          onClick={handleCheckoutClick}
-        >
-          Checkout
-        </button>
-      </div>
-
-      <div
-        className="flex justify-center gap-4 bg-tahiti pl-5 pr-5 pb-9 w-full text-center"
-        style={{ position: "fixed", bottom: "0px", height: "7px" }}
-      >
-        <p>
-          You have {Object.values(cartItemsMap).length} item(s) in your cart
-        </p>
-        <button onClick={() => router.push("/")}>
-          <p className="px-2 duration-500 rounded-sm hover:bg-addtocartcolor hover:text-tahiti">
-            Continue Shopping
-          </p>
-        </button>
-      </div>
-
-      <Modal
-        title={<span className="checkout-title">Checkout</span>}
-        open={isCheckoutVisible}
-        onCancel={() => setIsCheckoutVisible(false)}
-        footer={[
-          <Button
-            className="text-dark  px-5"
-            key="continue"
-            onClick={handleContinueClick}
+        <div className=" flex justify-end pr-28 pt-3">
+          <button
+            className=" bg-addtocartcolor pt-[5px] pb-1 px-[5px] pl-[7px] pr-[7px] rounded-md hover:text-tahiti"
+            onClick={handleCheckoutClick}
           >
-            <div>
-              Continue <RightOutlined />
-            </div>
-          </Button>,
-        ]}
-      >
-        <h2 className=" pt-3">Order Summary</h2>
-        <Table
-          columns={checkoutColumns}
-          dataSource={Object.values(cartItemsMap)}
-          pagination={false}
-          bordered
-          size="small"
-        />
-        <Table
-          columns={totalColumns}
-          dataSource={totalData}
-          pagination={false}
-          size="small"
-          showHeader={false}
-          width={100}
-          height={80}
-          bordered={{
-            border: "2px solid #000",
-            borderRadius: "5px",
-          }}
-          className="mt-10"
-        />
-      </Modal>
+            Checkout
+          </button>
+        </div>
 
-      <Modal
-        title="User Information"
-        open={isUserInfoVisible}
-        onCancel={() => setIsUserInfoVisible(false)}
-        footer={[
-          <div className="flex  justify-between space-x-[5px]">
-            <div>
-              <Button
-                className=" justify-start"
-                key="back"
-                onClick={handleBackClick}
-              >
-                <div>
-                  <LeftOutlined /> Back
-                </div>
-              </Button>
-              ,
-            </div>
-            <div className="">
-              <Button className="" key="Checkout" onClick={handleFinalCheckout}>
-                <div>
-                  Checkout <RightOutlined />
-                </div>
-              </Button>
-              ,
-            </div>
-          </div>,
-        ]}
-      >
-        <Input
-          placeholder="First Name"
-          name="firstName"
-          value={userInfo.firstName}
-          onChange={handleUserInfoChange}
-          className="mb-2"
-          status={formErrors.firstName ? "error" : ""}
-        />
-        <Input
-          placeholder="Last Name"
-          name="lastName"
-          value={userInfo.lastName}
-          onChange={handleUserInfoChange}
-          className="mb-2"
-          status={formErrors.lastName ? "error" : ""}
-        />
-        <Input
-          placeholder="Date"
-          type="date"
-          name="date"
-          defaultValue={currentDate}
-          onChange={handleUserInfoChange}
-        />
-      </Modal>
-    </div>
+        <div
+          className="flex justify-center gap-4 bg-tahiti pl-5 pr-5 pb-9 w-full text-center"
+          style={{ position: "fixed", bottom: "0px", height: "7px" }}
+        >
+          <p>
+            You have {Object.values(cartItemsMap).length} item(s) in your cart
+          </p>
+          <button onClick={() => router.push("/")}>
+            <p className="px-2 duration-500 rounded-sm hover:bg-addtocartcolor hover:text-tahiti">
+              Continue Shopping
+            </p>
+          </button>
+        </div>
+
+        <Modal
+          title={<span className="checkout-title">Checkout</span>}
+          open={isCheckoutVisible}
+          onCancel={() => setIsCheckoutVisible(false)}
+          footer={[
+            <Button
+              className="text-dark  px-5"
+              key="continue"
+              onClick={handleContinueClick}
+            >
+              <div>
+                Continue <RightOutlined />
+              </div>
+            </Button>,
+          ]}
+        >
+          <h2 className=" pt-3">Order Summary</h2>
+          <Table
+            columns={checkoutColumns}
+            dataSource={Object.values(cartItemsMap)}
+            pagination={false}
+            bordered
+            size="small"
+          />
+          <Table
+            columns={totalColumns}
+            dataSource={totalData}
+            pagination={false}
+            size="small"
+            showHeader={false}
+            width={100}
+            height={80}
+            bordered={{
+              border: "2px solid #000",
+              borderRadius: "5px",
+            }}
+            className="mt-10"
+          />
+        </Modal>
+
+        <Modal
+          title="User Information"
+          open={isUserInfoVisible}
+          onCancel={() => setIsUserInfoVisible(false)}
+          footer={[
+            <div className="flex  justify-between space-x-[5px]">
+              <div>
+                <Button
+                  className=" justify-start"
+                  key="back"
+                  onClick={handleBackClick}
+                >
+                  <div>
+                    <LeftOutlined /> Back
+                  </div>
+                </Button>
+                ,
+              </div>
+              <div className="">
+                <Button
+                  className=""
+                  key="Checkout"
+                  onClick={handleFinalCheckout}
+                >
+                  <div>
+                    Checkout <RightOutlined />
+                  </div>
+                </Button>
+                ,
+              </div>
+            </div>,
+          ]}
+        >
+          <Input
+            placeholder="First Name"
+            name="firstName"
+            value={userInfo.firstName}
+            onChange={handleUserInfoChange}
+            className="mb-2"
+            status={formErrors.firstName ? "error" : ""}
+          />
+          <Input
+            placeholder="Last Name"
+            name="lastName"
+            value={userInfo.lastName}
+            onChange={handleUserInfoChange}
+            className="mb-2"
+            status={formErrors.lastName ? "error" : ""}
+          />
+          <Input
+            placeholder="Date"
+            type="date"
+            name="date"
+            defaultValue={currentDate}
+            onChange={handleUserInfoChange}
+          />
+        </Modal>
+      </div>
+    </>
   );
 };
 

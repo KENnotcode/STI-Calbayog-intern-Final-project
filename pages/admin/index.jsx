@@ -3,13 +3,13 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import Head from "next/head";
 
 function Adminlogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("Coffee First")
-  const [role, setRole] = useState("Admin")
+  const [username, setUsername] = useState("Coffee First");
+  const [role, setRole] = useState("Admin");
   const router = useRouter();
 
   const submitHandler = (event) => {
@@ -20,21 +20,31 @@ function Adminlogin() {
       return;
     }
 
-    if (email === "coffeefirstcalbayog@gmail.com" && password === "coffeefirst") {
-      localStorage.setItem("loggedInUser", JSON.stringify({email, username, role}));
+    if (
+      email === "coffeefirstcalbayog@gmail.com" &&
+      password === "coffeefirst"
+    ) {
+      localStorage.setItem(
+        "loggedInUser",
+        JSON.stringify({ email, username, role })
+      );
       toast.success("Login successful!");
       router.replace("/admin/dashboard");
     } else {
-        toast.error("Invalid Username or Password");
+      toast.error("Invalid Username or Password");
     }
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <Head>
+        <title>Coffee First - Admin</title>
+        <meta name="description" content="freshcoffee website" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" alt="icon" href="/BASTAfavicon.png" />
+      </Head>
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded shadow-md">
-        <h1 className="text-2xl font-bold text-center">
-          Login
-        </h1>
+        <h1 className="text-2xl font-bold text-center">Login</h1>
         <form onSubmit={submitHandler} className="space-y-6">
           <div>
             <label
